@@ -4,7 +4,7 @@
     align-items: center;
     width: calc(100% - 204px);
     height: 60px;
-    padding-top: 4px;
+    border-bottom: 1px solid #ccc;
 }
     .header .menu-title {
         float: left;
@@ -17,23 +17,50 @@
         display: flex;
         margin-right: 5px;
         align-items: right;
-        margin-left: calc(100% - 670px);
+        margin-left: calc(100% - 920px);
         padding-left: 4px;
     }
     .header .shop-info {
-        padding: 16px;
+        padding: 8px;
         font-size: 16px;
         float: right;
     }
-
+        .header .link-home{
+            margin-top: 15px;
+            padding-top: 5px;
+            height: 30px;
+            width: 220px;
+            border-right: 1px solid #ccc;
+            margin-right: 20px;
+        }
+        .header .link-home a{
+            display: flex;
+            color: #026b97;
+        }
+        .header .link-home a:hover{
+            cursor: pointer;
+            color: #0088c1;
+        }
+        .header .link-home .icon-back{
+            width: 15px;
+            height: 10px;
+            margin-top: 4px;
+            margin-right: 12px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url('assets/icons/long-arrow-alt-left-solid.svg');
+        }
         .header .shop-info select {
             height: 40px;
-            width: 260px;
+            width: 210px;
             border: none;
             outline: none;
             cursor: pointer;
             font-weight: medium;
-            font-size: 15px;
+            font-size: 13px;
+            margin-top: 4px;
+            margin-right: 8px;
         }
 
             .header .shop-info option{
@@ -51,12 +78,14 @@
             height: 30px;
             border: 1px solid #ccc;
             border-radius: 50%;
-            background-image: url('assets/icon/avatar-default.png');
+            background-image: url('assets/icons/avatar-default.png');
             background-size:contain;
         }
 
         .header .account-info .account-name {
+            width: 98px;
             padding: 10px;
+            font-weight: 700;
         }
 
         .header .account-info .account-option {
@@ -65,28 +94,23 @@
         }
 
     .header .items-header{
-        margin-top: 12px;
-        width: 50px;
-        margin-left: 4px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
+        border-right: 1px solid #ccc ;
         background-position: center;
         background-repeat: no-repeat;
     }
     .icons-phone{
-        background-image: url('assets/icon/ic_support.svg');
-        background-color: #026b97;
-        background-size: cover;
+        width: 50px !important;
+        background-image: url('assets/icons/ic_support.svg');
+        background-color: #2b3173 ;
+        background-size: 45px 60px;
     }
     .icons-notification{
-        background-image: url('assets/icon/notification.png');
-        background-color: #026b97;
-        background-size: cover;
+        background-image: url('assets/icons/notify-18.png');
+        background-size: 20px 24px;
     }
      .icons-support{
-         margin-top: 24px !important;
-         width: 20px !important;
-         height: 20px !important;
-         background-image: url('assets/icon/iconHelp.png');
-         border-radius: 50%;
-         border: 1px solid #026b97;
+        background-image: url('assets/icons/icon_help_18.png');
+        background-size: 24px 24px;
      }
