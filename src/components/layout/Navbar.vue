@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="navbar-content">
-            <a class="nav-item">
+            <a class="nav-item active">
                 <div class="nav-item-icon nav-item-product"></div>
                 <div class="nav-item-text">Hàng hóa</div>
             </a>

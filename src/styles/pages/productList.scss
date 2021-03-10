@@ -1,0 +1,84 @@
+.grid-product {
+    height: calc(100vh - 180px);
+  }
+  
+  tr .filter{
+    height: 40px;
+  }
+  
+  .currency-for-input {
+    position: absolute;
+    right: 40px;
+    line-height: 40px;
+    font-style: italic;
+  }
+  
+  .select-filter-button{
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 13px;
+    color: #000000;
+    font-family: GoogleSans-Regular;
+    padding-left: 16px;
+    padding-right: 16px;
+    outline: none;
+    margin-right: 2px;
+    border: 1px solid #d9d9d9 !important;
+    cursor: pointer;
+    justify-content: center;
+  }
+  #txtSearchProductCode, #txtSearchProductName, #txtSearchAddress, #txtSearchPhoneNumber{
+    min-width: calc(100% - 52px);
+    border: 1px solid #d9d9d9 !important;
+  }
+  #txtSearchStatus{
+    margin: 4px;
+    border: 1px solid #d9d9d9 !important;
+    width: calc(100% - 8px);
+  }
+  #current-page{
+    width: 70px;
+  }
+  td.filter{
+    padding: 0px !important;
+  }
+  select.input-number-record{
+    min-width: 30px;
+  }
+  .disable-button{
+    opacity: 0.6;
+  }
+  .disable-button:hover{
+    background-color: #2b3173 !important;
+  }
+  #txtSearchStatus{
+    height: 40px;
+  }
+  #snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    max-width: 400px;
+    margin-left: -125px;
+    background-color: rgba(0, 148, 7, 0.753);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 5;
+    right: 5%;
+    top: 40px;
+    font-size: 17px;
+  }
+  #snackbar.showCorrect {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  #snackbar.showError{
+    background-color: #cf0000;
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }

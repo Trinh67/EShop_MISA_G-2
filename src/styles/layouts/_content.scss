@@ -2,13 +2,13 @@
     position: absolute;
     top: 60px;
     left: 201px;
-    width: calc(100% - 230px);
+    width: calc(100% - 216px);
     background-color: #ffffff;
     border-top: 8px solid #d9d9d9;
     border-left: 8px solid #d9d9d9;
     border-right: 8px solid #d9d9d9;
     border-bottom: 4px solid #d9d9d9;
-    bottom: 3px;
+    bottom: 0px;
 }
 
 /*Page tile*/
@@ -21,12 +21,14 @@
         display: flex;
         width: 100%;
         height: 40px;
-        background-color: #026b97;
+        background-color: #2b3173;
     }
-    /*filter bar*/
-    .content .filter-bar {
+    .content-body .header-content .toolbar button{
+        background-color: #2b3173;
     }
-
+    .content-body .header-content .toolbar button:hover{
+        background-color: #6b6f9d;
+    }
 /* Paging */
 .content .paging-bar{
     border-top: 4px solid #d9d9d9;
@@ -34,3 +36,13 @@
     margin-bottom: 0px;
 }
 
+/* toolbar */
+.content .toolbar, .content .toolbar button{
+    border: 1px solid #190472
+}
+
+/* table */
+table input[type="checkbox"]{
+    position: center;
+    width: 20px;
+}

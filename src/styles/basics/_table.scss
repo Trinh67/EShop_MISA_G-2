@@ -16,13 +16,14 @@
     background-color: #c3ecff!important;
 }
 .grid th, td {
-    border: 2px solid #d9d9d9;
+    border: 1px solid #d9d9d9;
 }
 .grid table th {
     font-size: 15px;
     background-color: #fafafa;
     height: 40px;
     text-align: left;
+    font-weight: 700;
 }
 
     .grid table th .cell {
@@ -31,13 +32,16 @@
 
 .grid table td {
     border-bottom: 1px solid #bbbbbb;
-    padding: 15px 16px !important;
+    padding: 0px 8px 0px 8px!important;
     text-align: left;
     white-space: nowrap;
     box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
+}
+.grid table td input[type="checkbox"]{
+    margin-left: 8px;
 }
 .grid table td .cell {
     padding: 0px 0px 0px 8px !important;
