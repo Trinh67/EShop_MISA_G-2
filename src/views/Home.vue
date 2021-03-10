@@ -1,17 +1,20 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <Navbar />
+    <Header title="Hàng hóa"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-
+// @ is an alias to /src
+import Navbar from '@/components/layout/Navbar.vue';
+import Header from '@/components/layout/Header.vue';
 export default Vue.extend({
   name: 'Home',
   components: {
-    HelloWorld,
+    Navbar,
+    Header,
   }
 });
 </script>
