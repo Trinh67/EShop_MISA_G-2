@@ -17,7 +17,10 @@
           <div class="btn-toolbar-icon icon-add"></div> Thêm mới
           <div class="account-option icon-option-default-16 mg-left-10"></div>
         </button>
-        <button class="m-btn m-btn-default disable-button" disabled>
+        <button 
+          class="m-btn m-btn-default disable-button"
+          @click="btnEditOnClick"
+        >
           <div class="btn-toolbar-icon icon-multiply"></div> Nhân bản
         </button>
         <button 
@@ -222,35 +225,9 @@
       </table>
     </div>
     <!-- Content footer -->
-    <div class="paging-bar">
-      <div class="paging-option">
-        <div class="btn-select-page m-btn-firstpage" v-on:click="FirstPageNumber"></div>
-        <div class="btn-select-page m-btn-prev-page" v-on:click="DecreasePageNumber"></div>
-        <div class="m-btn-list-page">
-          Trang 
-          <input 
-            type="number" 
-            v-model="currentPage"
-            id="current-page"
-            @change="SetCurrentPage()"
-            style="margin: 4px; height: 32px"
-          />
-           trên {{totalPage}}
-        </div>
-        <div class="btn-select-page m-btn-next-page" v-on:click="IncreasePageNumber"></div>
-        <div class="btn-select-page m-btn-lastpage" v-on:click="LastPageNumber"></div>
-        <div class="btn-select-page m-btn-refresh" @click="reloadData"></div>
-      </div>
-      <div class="paging-record-option">
-        <select v-model="number" class="input-number-record">
-          <option :value='15'>15</option>
-          <option :value='25'>25</option>
-          <option :value='50'>50</option>
-          <option :value='100'>100</option>
-        </select>
-      </div>
-      <div class="paging-record-info">Hiển thị {{startListProduct}}-{{finishListProduct}} trên {{ProductDataLength}} kết quả</div>
-    </div>
+    <Paging 
+      :PagingValue="PagingValue"
+    />
   </div>
 </template>
 
@@ -258,10 +235,11 @@
 <script>
 import Vue from 'vue';
 import '@/styles/pages/productList.scss';
+import Paging from '@/components/base/Paging.vue'
 export default {
   name: "ProductList",
   components: {
-    
+    Paging,
   },
   data() {
       return {
@@ -302,10 +280,165 @@ export default {
                 ShowInScreen: 0,
                 Status: 0,
               },
-          ]
-              
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+              {
+                SKUCode: 12,
+                ProductName: "Test",
+                ProductCategoryID: 12,
+                UnitID: 1,
+                SalePrice: 100000,
+                ShowInScreen: 0,
+                Status: 0,
+              },
+          ],
+          PagingValue: {
+            productDataLength: 105,
+            startPoint: 0,
+            totalPage: 10,
+            startListProduct: 1,
+            finishListProduct: 1,
+            currentPage: 1,
+            number: 15
+          }
       }
   },
+  methods: {
+    
+  }
 };
 </script>
 
@@ -324,7 +457,7 @@ export default {
   width: 3%;
 }
 #SKUCode{
-  width: 8%;
+  width: 7%;
 }
 #productName{
   width: 40%;
