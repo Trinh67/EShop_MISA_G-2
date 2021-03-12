@@ -20,7 +20,7 @@
 }
 .grid table th {
     font-size: 15px;
-    background-color: #fafafa;
+    background-color: #f0f0f0;
     height: 40px;
     text-align: left;
     font-weight: 700;
@@ -58,11 +58,11 @@
 }
 
 .grid tbody tr:nth-child(2n) {
-    background-color: #fafafa;
+    background-color:#f0f0f0;
 }
 
 .grid tbody tr:hover {
-    background-color: #d9d9d9;
+    background-color:#ebe6e5;
     cursor: pointer;
 }
 
