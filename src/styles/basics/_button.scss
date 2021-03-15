@@ -1,11 +1,11 @@
 .m-btn {
     display: flex;
     align-items: center;
-    background-color: #026b97;
+    background-color: #2B3173;
     height: 40px;
     font-size: 13px;
     color: #ffffff;
-    font-family: GoogleSans-Regular;
+    font-family: Roboto;
     padding-left: 16px;
     padding-right: 16px;
     outline: none;
@@ -16,11 +16,8 @@
 }
 
     .m-btn:hover,.m-btn:hover {
-        background-color: #0088c1;
+        background-color: #6b6f9d;
     }
-    // .m-btn:hover,.m-btn:focus {
-    //     background-color: #0088c1;
-    // }
     .m-btn .m-btn-icon {
         background-position: center;
     }
@@ -61,24 +58,6 @@
 .m-btn-cancel:hover,.m-btn-cancel:focus {
     background-color: #BBBBBB;
 }
-.btn-pagenumber {
-    width: 30px;
-    height: 30px;
-    margin: 0 4px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    background-color: #e9ebee;
-    cursor: pointer !important;
-}
-
-    .btn-pagenumber:hover {
-        background-color: #ffffff;
-    }
-
-    .btn-pagenumber.btn-pagenumber-selected, .btn-pagenumber-selected:hover {
-        background-color: #019160;
-        color: #ffffff;
-    }
 
 .btn-select-page {
     opacity:.7;

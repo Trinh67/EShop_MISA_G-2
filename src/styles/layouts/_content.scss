@@ -33,7 +33,11 @@
 .content .paging-bar{
     border-top: 4px solid #d9d9d9;
     height: 56px;
-    margin-bottom: 0px;
+    margin: 0px;
+    padding-bottom: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    border-bottom: 8px solid #d9d9d9;
 }
 .content .paging-bar .paging-record-option select.input-number-record{
     margin-left: 8px;

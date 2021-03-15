@@ -1,8 +1,10 @@
 <template>
      <div class="header">
+         <!-- Title -->
         <div class="menu-title">
             {{title}}
         </div>
+        
         <div class="header-right">
             <div class="link-home">
                 <a href="">

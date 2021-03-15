@@ -1,0 +1,41 @@
+.dialog button {
+    margin-left: 8px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+.dialog #btnSave{
+    border: 1px solid #2b3173;
+}
+.dialog #btnCancel{
+    color: #2b3173;
+    border: 1px solid #ffffff;
+}
+.dialog #btnCancel:hover{
+    background-color: #ffffff !important;
+    border: 1px solid #2b3173;
+}
+
+/* Header */
+.dialog .header{
+    height: 52px;
+    width: 100%;
+}
+/* Body */
+.dialog .body{
+    width: 100%;
+    height: calc(100vh - 184px);
+    overflow-x:auto;
+    overflow-y:auto;
+}
+/* Footer */
+.dialog .footer{
+    position: relative;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 52px;
+    border-top: 1px solid #ccc;
+    border-bottom: 8px solid #d9d9d9;
+    z-index: 2 !important;
+}

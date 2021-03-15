@@ -10,7 +10,8 @@
     <!-- Content Header -->
     <div class="header-content">
       <div class="toolbar">
-        <button 
+        <button
+          title="Thêm mới"
           class="m-btn m-btn-default" 
           @click="btnAddOnClick"
         >
@@ -18,25 +19,34 @@
           <div class="account-option icon-option-default-16 mg-left-10"></div>
         </button>
         <button 
+          title="Nhân bản"
           class="m-btn m-btn-default disable-button"
           @click="btnEditOnClick"
         >
           <div class="btn-toolbar-icon icon-multiply"></div> Nhân bản
         </button>
-        <button 
+        <button
+          title="Sửa" 
           class="m-btn m-btn-default"
           @click="btnEditOnClick"
         >
           <div class="btn-toolbar-icon icon-edit"></div> Sửa 
         </button>
-        <button 
+        <button
+          title="Xóa" 
           class="m-btn m-btn-default" 
           @click="btnDeleteOnClick">
           <div class="btn-toolbar-icon icon-delete"></div> Xóa 
         </button>
-        <button class="m-btn m-btn-default"><div class="btn-toolbar-icon icon-load" @click="reloadData"></div> Nạp </button>
+        <button 
+          title="Nạp"
+          class="m-btn m-btn-default"
+        >
+          <div class="btn-toolbar-icon icon-load" @click="reloadData"></div> Nạp 
+        </button>
       </div>
     </div> 
+    <!-- End Content Header -->
     <!-- Content Body -->
     <div
       class="grid grid-product el-table el-table--fit el-table--scrollable-y el-table--enable-row-hover el-table--enable-row-transition"
@@ -224,10 +234,12 @@
         </tbody>
       </table>
     </div>
+    <!-- End Content Body -->
     <!-- Content footer -->
     <Paging 
       :PagingValue="PagingValue"
     />
+    <!-- End Content Footer -->
   </div>
 </template>
 
@@ -426,7 +438,7 @@ export default {
               },
           ],
           PagingValue: {
-            productDataLength: 105,
+            productDataLength: 100,
             startPoint: 0,
             totalPage: 10,
             startListProduct: 1,
@@ -437,7 +449,9 @@ export default {
       }
   },
   methods: {
-    
+    btnAddOnClick(){
+      this.$emit('showDialog');
+    }
   }
 };
 </script>
