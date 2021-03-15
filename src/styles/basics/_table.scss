@@ -1,6 +1,7 @@
 /* Grid */
 .grid {
     width: 100%;
+    height: calc(100% - 25px);
     overflow-x:auto;
     overflow-y:auto;
 }
@@ -56,13 +57,15 @@
     font-weight: bold !important;
     text-align: center !important;
 }
+.grid tbody {
+    overflow:hidden;
+}
 .grid tbody tr{
     height: 40px;
 }
 .grid tbody tr:nth-child(2n) {
     background-color:#f0f0f0;
 }
-
 .grid tbody tr:hover {
     background-color:#ebe6e5;
     cursor: pointer;

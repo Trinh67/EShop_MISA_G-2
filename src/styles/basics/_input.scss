@@ -10,6 +10,9 @@ input, select {
     height: 40px;
     box-sizing: border-box !important;
 }
+select:hover{
+    cursor: pointer;
+}
 textarea{
     border: 1px solid #bbbbbb !important;
 }

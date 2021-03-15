@@ -21,11 +21,118 @@
     width: 100%;
 }
 /* Body */
+.disable-input{
+    background-color: #f0f0f0;
+}
 .dialog .body{
-    width: 100%;
+    width: calc(100% - 2px);
     height: calc(100vh - 184px);
-    overflow-x:auto;
+    overflow-x:hidden;
     overflow-y:auto;
+}
+.basic-info, .attribute-info, .additional-info{
+    margin-top: 12px;
+    margin-left: 4px;
+    width: 100%;
+}
+.info-title{
+    width: 100%;
+    height: 30px;
+    font-size: 15px ;
+    font-weight: bold;
+    color: #757575;
+    text-transform: uppercase;
+    padding: 4px;
+}
+.dialog .body .row{
+    display: flex;
+    margin-bottom: 8px;
+}
+.dialog .body .basic-info .row input[type="radio"]{
+    margin-left: 0px;
+    width: 18px!important;
+    height: 18px!important;
+}
+.dialog .body .basic-info .row input[type="number"]{
+    width: 160px;
+    height: 40px;
+    padding: 5px 10px;
+    text-align: right;
+}
+.dialog .body .basic-info .row label{
+    padding: 4px;
+}
+#radio2{
+    margin-left: 12px;
+}
+.dialog .body .row .input-title{
+    width: 160px;
+    padding: 8px;
+}
+.dialog .body .basic-info .row input{
+    width: 240px;
+    height: 40px;
+    padding: 5px 10px;
+}
+.dialog .body .basic-info .row select{
+    width: 215px;
+    height: 40px;
+    padding: 5px 10px;
+    border-radius: 4px 0px 0px 4px !important; 
+}
+.dialog .body .basic-info .row select + input{
+    width: 24px;
+    height: 40px;
+    padding:6px;
+    font-size: 15px;
+    border-radius: 0px 4px 4px 0px !important; 
+}
+.dialog .body .basic-info .row input[type="checkbox"]{
+    margin-left: 12px;
+    width: 18px;
+    height: 18px;
+}
+#isShow-text{
+    padding: 6px 6px 6px 3px;
+}
+.items-dialog{
+    margin-top: 6px;
+    margin-left: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.input-title .items-dialog{
+    margin-top: 2px;
+    margin-left: 4px;
+}
+
+.attribute-info .row input{
+    width: 150px;
+    border-radius: 4px 0px 0px 4px !important; 
+}
+.attribute-info .row input.input-dialog{
+    width: 300px;
+    border-radius: 0px 4px 4px 0px !important; 
+}
+/* Table */
+.attribute-info .row .grid {
+    width: calc(100% - 200px);
+    height: auto;
+    overflow-x: auto;
+    overflow-y: auto;
+    margin-left: -2px;
+    max-height: 240px;
+}
+.right{
+    text-align: right !important;
+}
+.icon-delete-attr{
+    margin: auto;
+    background-position: -4px -3px;
 }
 /* Footer */
 .dialog .footer{

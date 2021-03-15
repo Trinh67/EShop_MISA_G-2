@@ -1,4 +1,4 @@
-# demo
+# eshop
 
 ## Project setup
 ```

@@ -468,25 +468,28 @@ export default {
   display: none;
 }
 #checkboxInput{
-  width: 3%;
+  width: 2%;
+}
+td input{
+  margin-right: 6px;
 }
 #SKUCode{
-  width: 7%;
+  width: 9%;
 }
 #productName{
-  width: 40%;
+  width: 30%;
 }
 #productCategoryID{
-  width: 11%;
+  width: 12%;
 }
 #unitID{
-  width: 8%;
+  width: 9%;
 }
 #salePrice{
-  width: 8%;
+  width: 9%;
 }
 #isShowInScreen{
-  width: 12%;
+  width: 15%;
 }
 #status{
   width: 11%;
