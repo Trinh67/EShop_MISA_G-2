@@ -10,7 +10,7 @@
                 <div class="btn-toolbar-icon icon-save"></div>
                 <span 
                 class="btn-text" 
-                v-on:click="btnSaveOnClick"
+                v-on:click="saveProduct"
                 >
                 Lưu
                 </span>
@@ -40,7 +40,18 @@
                     </div>
                     <div class="row">
                         <span class="input-title">Tên hàng hóa <span class="label-required">*</span></span>
-                        <input type="text" class="input-dialog" ref="productName"/>
+                        <input 
+                            type="text" 
+                            class="input-dialog" 
+                            ref="productName" 
+                            v-model="Product.ProductName"
+                            :class="{requireErr: !isHideErrorName}"
+                            @blur="validate('productName')"
+                        />
+                        <small 
+                            id="error-name" class="error-msg"
+                            :class="{isHide:isHideErrorName}"
+                        >{{ErrorName}}</small>
                     </div>
                     <div class="row">
                         <span class="input-title">Nhóm hàng hóa</span>
@@ -84,8 +95,7 @@
                 <div class="row">
                     <span class="input-title">Thuộc tính</span>
                     <input disabled placeholder="Màu sắc" class="disable-input"/>
-                    <input type="text" class="input-dialog"/>
-                    
+                    <input-tag v-model="tags"></input-tag>
                 </div>
                 <div class="row">
                     <span class="input-title">Chi tiết thuộc tính</span>
@@ -193,7 +203,7 @@
                 <div class="btn-toolbar-icon icon-save"></div>
                 <span 
                 class="btn-text" 
-                v-on:click="btnSaveOnClick"
+                v-on:click="saveProduct"
                 >
                 Lưu
                 </span>
@@ -214,13 +224,17 @@
 
 <script>
 import '@/styles/pages/dialogs/ProductDialog.scss'
+import InputTag from 'vue-input-tag'
 export default {
     name: 'ProductDialog',
     components: {
-      
+      InputTag
     },
     data() {
         return {
+            Product:{
+                
+            },
             ProductDetails: [
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
@@ -234,17 +248,82 @@ export default {
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-            ]
+            ],
+            ErrorName: "Lỗi",
+            isHideErrorName: true,
         }
     },
     methods: {
         btnCancelOnClick(){
             this.$emit('cancelDialog');
+        },
+        /**
+         * Lưu mới cửa hàng
+         * Created By: TXTrinh (22/02/2021)
+         */
+        saveProduct() {
+            // validate dữ liệu trước khi cho phép thêm
+            if(this.validateData() == false) {
+                // validate ko hop le.
+                this.Alert.Success = false;
+                this.Alert.Text = 'Bạn phải điền thông tin đúng định dạng';
+                this.$emit("hanldeAlert", this.Alert);
+            }
+            else{
+                alert("Lưu thành công")
+            }
+        },
+        /**
+         * Hàm Validate định dạng dữ liệu nhập vào, return: True - hợp lệ; False: không hợp lệ
+         * Created by: TXTrinh (22/02/2021)
+         *  */ 
+        validate(type) {
+        const formProductName = /^[A-Za-z0-9]{1,50}$/;
+        
+        switch (type) {
+            case 'productName':  
+            // Validate productName:
+            { 
+                if((this.Product.ProductName == null) || (this.Product.ProductName.trim()=='')) {
+                    this.isHideErrorName = false;
+                    this.ErrorName = "* Tên hàng hóa không được để trống"
+                }
+                else if(formProductName.test(this.Product.ProductName.trim())==false){
+                    this.isHideErrorName = false;
+                    this.ErrorName = "* Tên hàng hóa chỉ chứa kí tự chữ hoặc số"
+                }
+                else {
+                    this.isHideErrorName = true;
+                }
+            break;
+            }
+            case 'SKUCode': {
+                break;
+            }
+            default:
+            { 
+                break;
+            }
         }
+        },
+        /**
+         * Kiểm tra toàn bộ dữ liệu
+         * Created by: TXTrinh (16/03/2021)
+         */
+        validateData(){
+            this.validate('productName');
+            // nếu không có lỗi thì không hiện cảnh báo
+            if(this.isHideErrorName)
+                return true;
+            return false;
+        },
     },
 }
 </script>
 <style scoped>
+.isHide{
+    display: none;
+}
 table{
   border-spacing: 0;
   min-width: 100%

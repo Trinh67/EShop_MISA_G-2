@@ -115,10 +115,38 @@
     width: 150px;
     border-radius: 4px 0px 0px 4px !important; 
 }
-.attribute-info .row input.input-dialog{
-    width: 300px;
-    border-radius: 0px 4px 4px 0px !important; 
+
+// Input Tag
+.vue-input-tag-wrapper{
+    width: 300px !important;
+    border-radius: 0px 4px 4px 0px !important;
 }
+.vue-input-tag-wrapper .input-tag {
+    height: 20px!important;
+    background-color: #2b3173!important;
+    border-radius: 3px!important;
+    border: 1px solid #2b3173 !important;
+    color: #ffffff!important;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 2px!important;
+    margin-bottom: 2px!important;
+    margin-right: 4px;
+    padding: 2px 6px 2px 6px!important;
+}
+.vue-input-tag-wrapper .input-tag .remove {
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+}
+input.new-tag{
+    height: 30px !important;
+    border: 1px solid #ffffff!important;
+    margin-bottom: 2px !important;
+    color: #000000!important;
+}
+
 /* Table */
 .attribute-info .row .grid {
     width: calc(100% - 200px);
@@ -216,4 +244,17 @@
     border-top: 1px solid #ccc;
     border-bottom: 8px solid #d9d9d9;
     z-index: 2 !important;
+}
+
+// Validate
+.error{
+    border: 1px solid #FF0000;
+}
+.error-msg{
+    color: #FF0000;
+    font-style: italic;
+    padding: 12px;
+}
+.requireErr, .require-error:focus{
+    border: 1px solid #FF0000 !important;
 }
