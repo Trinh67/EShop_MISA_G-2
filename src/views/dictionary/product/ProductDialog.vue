@@ -33,9 +33,9 @@
                 <div class="info-body">
                     <div class="row">
                         <span class="input-title">Trạng thái kinh doanh</span>
-                        <input type="radio" class="radio-button" id="radio1" name="" value="1">
+                        <input type="radio" class="radio-button" id="radio1" name="status" value="1">
                         <label for="">Đang kinh doanh</label>
-                        <input type="radio" class="radio-button" id="radio2" name="" value="0">
+                        <input type="radio" class="radio-button" id="radio2" name="status" value="0">
                         <label for="">Ngừng kinh doanh</label>
                     </div>
                     <div class="row">
@@ -85,6 +85,7 @@
                     <span class="input-title">Thuộc tính</span>
                     <input disabled placeholder="Màu sắc" class="disable-input"/>
                     <input type="text" class="input-dialog"/>
+                    
                 </div>
                 <div class="row">
                     <span class="input-title">Chi tiết thuộc tính</span>
@@ -92,7 +93,7 @@
                         <table>
                             <caption>Bảng chi tiết thuộc tính</caption>
                             <thead>
-                            <tr class="el-table__row">
+                            <tr class="table__row">
                                 <th
                                 id="productName"
                                 colspan="1"
@@ -138,60 +139,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Quần bò</td>
-                                    <td>QB-01</td>
-                                    <td>1546848</td>
-                                    <td class="right">112000</td>
-                                    <td class="right">50000</td>
-                                    <td><div class="btn-toolbar-icon icon-delete-attr"></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Quần bò</td>
-                                    <td>QB-01</td>
-                                    <td>1546848</td>
-                                    <td class="right">112000</td>
-                                    <td class="right">50000</td>
-                                    <td><div class="btn-toolbar-icon icon-delete-attr"></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Quần bò</td>
-                                    <td>QB-01</td>
-                                    <td>1546848</td>
-                                    <td class="right">112000</td>
-                                    <td class="right">50000</td>
-                                    <td><div class="btn-toolbar-icon icon-delete-attr"></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Quần bò</td>
-                                    <td>QB-01</td>
-                                    <td>1546848</td>
-                                    <td class="right">112000</td>
-                                    <td class="right">50000</td>
-                                    <td><div class="btn-toolbar-icon icon-delete-attr"></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Quần bò</td>
-                                    <td>QB-01</td>
-                                    <td>1546848</td>
-                                    <td class="right">112000</td>
-                                    <td class="right">50000</td>
-                                    <td><div class="btn-toolbar-icon icon-delete-attr"></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Quần bò</td>
-                                    <td>QB-01</td>
-                                    <td>1546848</td>
-                                    <td class="right">112000</td>
-                                    <td class="right">50000</td>
-                                    <td><div class="btn-toolbar-icon icon-delete-attr"></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Quần bò</td>
-                                    <td>QB-01</td>
-                                    <td>1546848</td>
-                                    <td class="right">112000</td>
-                                    <td class="right">50000</td>
+                                <tr class="table__row"
+                                    v-for="Product in ProductDetails"
+                                    :key="Product.ProductId"
+                                    :id="Product.ProductId"
+                                >
+                                    <td>{{ Product.ProductName }}</td>
+                                    <td>{{ Product.SKUCode }}</td>
+                                    <td>{{ Product.BarCode }}</td>
+                                    <td class="right">{{ Product.SalePrice | formatNumber}}</td>
+                                    <td class="right">{{ Product.BuyPrice | formatNumber}}</td>
                                     <td><div class="btn-toolbar-icon icon-delete-attr"></div></td>
                                 </tr>
                             </tbody>
@@ -201,7 +158,28 @@
             </div>
             <div class="additional-info">
                 <div class="info-title">Thông tin bổ sung</div>
-
+                <div class="row">
+                    <span class="input-title">Mô tả</span>
+                    <textarea id="description"/>
+                </div>
+                <div class="row">
+                    <span class="input-title">Ảnh hàng hóa</span>
+                    <div id="product-image">
+                        <div id="show-image">
+                            <div id="symbol">
+                                <div class="btn-toolbar-icon icon-edit-brown"></div>
+                                Biểu tượng
+                            </div>
+                            <div id="image"></div>
+                        </div>
+                        <input type="file" name="file" id="file" class="upload-image"/>
+                        <label for="file">...</label>
+                    </div>
+                    <div id="text-note">
+                        <em>- Lựa chọn biểu tượng để thay thế nếu không có ảnh</em><br/><br/>
+                        <em>- Định dạng ảnh (.jpg, .jpeg, .png, .gif) và dung lượng nhỏ hơn 5MB</em>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- End Body -->
@@ -233,13 +211,30 @@
         <!-- End Footer -->
     </div>
 </template>
+
 <script>
 import '@/styles/pages/dialogs/ProductDialog.scss'
 export default {
     name: 'ProductDialog',
+    components: {
+      
+    },
     data() {
         return {
-            
+            ProductDetails: [
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+            ]
         }
     },
     methods: {

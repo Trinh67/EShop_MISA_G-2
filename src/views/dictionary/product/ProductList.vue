@@ -1,12 +1,5 @@
 <template>
   <div class="content-body">
-    <!-- Loading -->
-    <div class="vld-parent">
-        <loading :active.sync="isLoading" 
-        :can-cancel="false" 
-        @click="onCancel"
-        :is-full-page="fullPage"></loading>
-    </div>
     <!-- Content Header -->
     <div class="header-content">
       <div class="toolbar">
@@ -49,14 +42,14 @@
     <!-- End Content Header -->
     <!-- Content Body -->
     <div
-      class="grid grid-product el-table el-table--fit el-table--scrollable-y el-table--enable-row-hover el-table--enable-row-transition"
+      class="grid grid-product"
     >
       <table
         id="tbListData"
       >
         <caption>Bảng hàng hóa</caption>
         <thead>
-          <tr class="el-table__row">
+          <tr class="table__row">
             <th 
               id="checkboxInput"
               colspan="1"
@@ -76,7 +69,6 @@
                   id="txtSearchSKUCode"
                   class="input-search"
                   type="text"
-                  placeholder=""
                   v-model="txtSearchSKUCode"
                   @change="SearchProduct()"
                 />
@@ -95,7 +87,6 @@
                   id="txtSearchProductName"
                   class="input-search"
                   type="text"
-                  placeholder=""
                   v-model="txtSearchProductName"
                   @change="SearchProduct()"
                 />
@@ -113,7 +104,6 @@
                   id="txtSearchProductCategory"
                   class="input-search"
                   type="text"
-                  placeholder=""
                   v-model="txtSearchProductCategory"
                   @change="SearchProduct()"
                 />
@@ -131,7 +121,6 @@
                   id="txtSearchUnit"
                   class="input-search"
                   type="text"
-                  placeholder=""
                   v-model="txtSearchUnit"
                   @change="SearchProduct()"
                 />
@@ -149,7 +138,6 @@
                   id="txtSearchSalePrice"
                   class="input-search"
                   type="text"
-                  placeholder=""
                   v-model="txtSearchSalePrice"
                   @change="SearchProduct()"
                 />
@@ -202,7 +190,7 @@
         </thead>
         <tbody id="tbody">
           <tr
-            class="el-table__row"
+            class="table__row"
             v-for="Product in Products"
             :key="Product.ProductId"
             :id="Product.ProductId"
@@ -223,7 +211,7 @@
               <div>{{ Product.UnitID }}</div>
             </td>
             <td>
-              <div>{{ Product.SalePrice }}</div>
+              <div class="right">{{ Product.SalePrice | formatNumber}}</div>
             </td><td>
               <div>{{ Product.ShowInScreen }}</div>
             </td>
@@ -449,11 +437,22 @@ export default {
       }
   },
   methods: {
+    /**
+     * Mở dialog thêm mới
+     * Created By: TXTrinh (16/03/2021)
+     */
     btnAddOnClick(){
       this.$emit('showDialog');
     }
   }
 };
+/**
+ * Format Number
+ */
+var numeral = require("numeral");
+Vue.filter("formatNumber", function (value) {
+    return numeral(value).format("0,0");
+});
 </script>
 
 <style scoped>
