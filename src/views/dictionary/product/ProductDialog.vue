@@ -33,9 +33,9 @@
                 <div class="info-body">
                     <div class="row">
                         <span class="input-title">Trạng thái kinh doanh</span>
-                        <input type="radio" class="radio-button" id="radio1" name="status" value="1">
+                        <input type="radio" class="radio-button" v-model="Product.Status" id="radio1" name="status" value="1">
                         <label for="">Đang kinh doanh</label>
-                        <input type="radio" class="radio-button" id="radio2" name="status" value="0">
+                        <input type="radio" class="radio-button" v-model="Product.Status" id="radio2" name="status" value="0">
                         <label for="">Ngừng kinh doanh</label>
                     </div>
                     <div class="row">
@@ -63,7 +63,7 @@
                         <input class="disable-input" disabled placeholder="+"/>
                     </div>
                     <div class="row">
-                        <span class="input-title">Mã SKU</span>
+                        <span class="input-title" ref="SKUCode">Mã SKU</span>
                         <input type="text" class="input-dialog"/>
                     </div>
                     <div class="row">
@@ -84,7 +84,7 @@
                         <input class="disable-input" disabled placeholder="+"/>
                     </div>
                     <div class="row">
-                        <input type="checkbox" class=""/>
+                        <input type="checkbox" v-model="Product.IsShowInScreen" class=""/>
                         <span id="isShow-text">Hiển thị trên màn hình bán hàng</span>
                         <div class="items-dialog icons-support"></div>
                     </div>
@@ -233,7 +233,8 @@ export default {
     data() {
         return {
             Product:{
-                
+                Status: 1,
+                IsShowInScreen: true,
             },
             ProductDetails: [
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
@@ -317,7 +318,13 @@ export default {
                 return true;
             return false;
         },
+        focusInput: function() {
+            this.$refs.productName.focus();
+        },
     },
+    mounted(){
+        this.focusInput();
+    }
 }
 </script>
 <style scoped>

@@ -17,6 +17,7 @@
       v-if="isHideWarn"
       :titleWarnDialog="title" 
     />
+    <ToggleMess :Alert='Alert'/>
   </div>
 </template>
 <script>
@@ -24,6 +25,7 @@ import ProductList from '@/views/dictionary/product/ProductList.vue'
 import ProductDialog from '@/views/dictionary/product/ProductDialog.vue'
 import PopupDel from '@/components/base/PopupDel.vue'
 import PopupWarn from '@/components/base/PopupWarn.vue'
+import ToggleMess from '@/components/base/ToggleMess.vue'
 export default {
   name: "Content",
   components: {
@@ -31,13 +33,15 @@ export default {
     ProductDialog,
     PopupDel,
     PopupWarn,
+    ToggleMess,
   },
   data() {
     return{
       isList: true,
       isDialog: false,
       isHideDel: false,
-      isHideWarn: true,
+      isHideWarn: false,
+      Alert: {Text: "MISA eShop", Success: true},
     };
   },
   methods:{
