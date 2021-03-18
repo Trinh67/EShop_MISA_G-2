@@ -1,12 +1,12 @@
 <template>
   <div class="content">
-    <ProductList v-if="isList" @showDialog="showDialog"/>
-    <product-dialog v-if="isDialog" @cancelDialog="cancelDialog"/>
+    <ProductList v-if="isList" @showDialog="showDialog" @showPopupDel="showPopupDel"/>
+    <ProductDialog v-if="isDialog" @cancelDialog="cancelDialog"/>
     <!-- Popup -->
     <PopupDel
       @closePopupDel="closePopup"
       @hanldeAlert="HandleAlert"
-      v-if="isHideDel"
+      v-if="isDel"
       :titleDelDialog="title" 
       :productId="selectedId"
       :productName="productNameSelected" 
@@ -14,7 +14,7 @@
     <PopupWarn
       @closePopupWarn="closePopup"
       @hanldeAlert="HandleAlert"
-      v-if="isHideWarn"
+      v-if="isWarn"
       :titleWarnDialog="title" 
     />
     <ToggleMess :Alert='Alert'/>
@@ -39,8 +39,8 @@ export default {
     return{
       isList: true,
       isDialog: false,
-      isHideDel: false,
-      isHideWarn: false,
+      isDel: false,
+      isWarn: false,
       Alert: {Text: "MISA eShop", Success: true},
     };
   },
@@ -56,11 +56,11 @@ export default {
       this.$emit('setTitle', 'Hàng hóa');
     },
     showPopupDel(){
-      this.isHideDel = true;
+      this.isDel = true;
     },
     closePopup(){
-      this.isHideDel = false;
-      this.isHideWarn = false;
+      this.isDel = false;
+      this.isWarn = false;
     }
   }
 }

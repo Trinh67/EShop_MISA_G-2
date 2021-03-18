@@ -55,7 +55,7 @@
               colspan="1"
               rowspan="1"
             >
-                <input type="checkbox">
+                <input type="checkbox" id="checkAll" @change="selectAll()">
             </th>
             <th
               id="SKUCode"
@@ -69,7 +69,7 @@
                   id="txtSearchSKUCode"
                   class="input-search"
                   type="text"
-                  v-model="txtSearchSKUCode"
+                  v-model="Filter.txtSearchSKUCode"
                   @change="SearchProduct()"
                 />
               </div>
@@ -87,7 +87,7 @@
                   id="txtSearchProductName"
                   class="input-search"
                   type="text"
-                  v-model="txtSearchProductName"
+                  v-model="Filter.txtSearchProductName"
                   @change="SearchProduct()"
                 />
               </div>
@@ -104,7 +104,7 @@
                   id="txtSearchProductCategory"
                   class="input-search"
                   type="text"
-                  v-model="txtSearchProductCategory"
+                  v-model="Filter.txtSearchProductCategory"
                   @change="SearchProduct()"
                 />
               </div>
@@ -121,7 +121,7 @@
                   id="txtSearchUnit"
                   class="input-search"
                   type="text"
-                  v-model="txtSearchUnit"
+                  v-model="Filter.txtSearchUnit"
                   @change="SearchProduct()"
                 />
               </div>
@@ -138,7 +138,7 @@
                   id="txtSearchSalePrice"
                   class="input-search"
                   type="text"
-                  v-model="txtSearchSalePrice"
+                  v-model="Filter.txtSearchSalePrice"
                   @change="SearchProduct()"
                 />
               </div>
@@ -154,14 +154,14 @@
                 <select
                   id="txtSearchIsShow"
                   class="m-control"
-                  v-model="txtSearchIsShow"
+                  v-model="Filter.txtSearchIsShow"
                   @change="SearchProduct()"
                 >
                   <option value="">
                     Tất cả
                   </option>
-                  <option class="" value="">Có</option>
-                  <option class="" value="">Không</option>
+                  <option class="1" value="">Có</option>
+                  <option class="0" value="">Không</option>
                 </select>
               </div>
             </th>
@@ -175,14 +175,14 @@
                 <select
                   id="txtSearchStatus"
                   class="m-control"
-                  v-model="txtSearchStatus"
+                  v-model="Filter.txtSearchStatus"
                   @change="SearchProduct()"
                 >
                   <option value="">
                     Tất cả trạng thái
                   </option>
-                  <option class="" value="">Đang kinh doanh</option>
-                  <option class="" value="">Ngừng kinh doanh</option>
+                  <option class="1" value="">Đang kinh doanh</option>
+                  <option class="0" value="">Ngừng kinh doanh</option>
                 </select>
               </div>
             </th>
@@ -192,12 +192,12 @@
           <tr
             class="table__row"
             v-for="Product in Products"
-            :key="Product.ProductId"
-            :id="Product.ProductId"
-            @click="rowOnClick(Product.ProductId, Product.ProductName)"
-            @dblclick="rowOnDBClick(Product.ProductId)"
+            :key="Product.ProductID"
+            :id="Product.ProductID"
+            @click="rowOnClick(Product.ProductID)"
+            @dblclick="rowOnDBClick(Product.ProductID)"
           >
-            <td><input type="checkbox"></td>
+            <td><input type="checkbox" @change="CheckListDelete(Product.ProductID, Product.isChecked)" v-model="Product.isChecked" name="checkboxInput"></td>
             <td>
               <div>{{ Product.SKUCode }}</div>
             </td>
@@ -213,10 +213,10 @@
             <td>
               <div class="right">{{ Product.SalePrice | formatNumber}}</div>
             </td><td>
-              <div>{{ Product.ShowInScreen }}</div>
+              <div>{{ isShow[Product.ShowInScreen] }}</div>
             </td>
             <td>
-              <div>{{ Product.Status }}</div>
+              <div>{{statusList[Product.Status]}}</div>
             </td>
           </tr>
         </tbody>
@@ -244,36 +244,55 @@ export default {
   data() {
       return {
           Products:[
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
-              {SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,},
+              {ProductID:1,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
+              {ProductID:2,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
+              {ProductID:3,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:4,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
+              {ProductID:5,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
+              {ProductID:6,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:7,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
+              {ProductID:8,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
+              {ProductID:9,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:10,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
+              {ProductID:11,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:12,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:13,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
+              {ProductID:14,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
+              {ProductID:15,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
           ],
+          /**
+           * Dữ liệu phân trang
+           */
           PagingValue: {
             productDataLength: 100,
             startPoint: 0,
-            totalPage: 10,
+            totalPage: 7,
             startListProduct: 1,
-            finishListProduct: 1,
+            finishListProduct: 15,
             currentPage: 1,
             number: 15
           },
+          // Danh sách hàng hóa để xóa
+          ListProDelete: [],
+          selectedId: null,
+          allSelected: false,
+          /**
+           * Dữ liệu mẫu
+          */
+          isShow: ["Không", "Có"],
+          statusList : ["Ngừng kinh doanh", "Đang kinh doanh"],
+          /**
+           * Dữ liệu lọc theo điều kiện
+           */
+          Filter: {
+            txtSearchSKUCode: "",
+            txtSearchProductName: "",
+            txtSearchProductCategory: "",
+            txtSearchUnit: "",
+            txtSearchSalePrice: "",
+            txtSearchIsShow: "",
+            txtSearchStatus: "",
+          }
       }
   },
   methods: {
@@ -283,7 +302,73 @@ export default {
      */
     btnAddOnClick(){
       this.$emit('showDialog');
-    }
+    },
+    /**
+     * Xóa hàng hóa
+     */
+    btnDeleteOnClick(){
+      if(this.ListProDelete.length == 0) {
+        alert("Bạn chưa chọn nhân viên nào!"); 
+        return
+      };
+      this.$emit('showPopupDel');
+    },
+    /**
+     *  Thêm/Xóa phần tử vào danh sách để xóa
+    */
+    CheckListDelete(id, isChecked){
+      if(!isChecked){
+        this.ListProDelete.splice(this.ListProDelete.indexOf(id), 1);
+        document.getElementById('checkAll').checked = false;
+        this.allSelected = false;
+      } 
+      else {
+        this.ListProDelete.push(id);
+        if(this.ListProDelete.length == this.Products.length)
+          document.getElementById('checkAll').checked = true;
+          this.allSelected = true;
+      }
+    },
+    /**
+     * Chon tất cả hàng hóa
+     */
+    selectAll() {
+      this.ListProDelete = [];
+      for ( var i = 0; i < this.Products.length; i++) {
+        if(!this.allSelected) this.ListProDelete.push(this.Products[i].ProductID);
+        document.getElementsByName('checkboxInput')[i].checked = !this.allSelected;
+      }
+      this.allSelected = !this.allSelected;    
+    },
+    /**
+     * Sự kiện click vào 1 hàng
+     * Created By: TXTrinh (22/02/2021)
+     */
+    rowOnClick(id){
+      if(this.selectedId == id){
+       document.getElementById(id).classList.remove("selected");
+       this.selectedId = null;
+      }
+      else if(this.selectedId != null && this.selectedId!= ""){
+        document.getElementById(this.selectedId).classList.remove("selected");
+        document.getElementById(id).classList.add("selected");
+        this.selectedId = id;
+      } else{
+        document.getElementById(id).classList.add("selected");
+        this.selectedId = id;
+      }
+      console.log(this.selectedId);
+    },
+    /**
+     * Sự kiến nhấn đúp vào 1 hàng
+     * Create By: TXTrinh (22/02/2021)
+     */
+    rowOnDBClick(id){
+      //this.isHideParent = false;
+      //this.title = "Cập nhập cửa hàng";
+      //EventBus.$emit('showShop', id);
+      console.log(id);
+    },
   }
 };
 
