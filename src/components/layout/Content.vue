@@ -1,23 +1,31 @@
 <template>
   <div class="content">
     <ProductList v-if="isList" @showDialog="showDialog" @showPopupDel="showPopupDel"/>
-    <ProductDialog v-if="isDialog" @cancelDialog="cancelDialog"/>
+    <ProductDialog 
+      v-if="isDialog" 
+      @hanldeAlert="HandleAlert"
+      @cancelDialog="cancelDialog"
+    />
+    <!-- Loading -->
+    <loading :active.sync="isLoading"  
+    :is-full-page="isFullPage"></loading>
     <!-- Popup -->
     <PopupDel
       @closePopupDel="closePopup"
       @hanldeAlert="HandleAlert"
       v-if="isDel"
-      :titleDelDialog="title" 
       :productId="selectedId"
       :productName="productNameSelected" 
     />
     <PopupWarn
       @closePopupWarn="closePopup"
-      @hanldeAlert="HandleAlert"
       v-if="isWarn"
       :titleWarnDialog="title" 
     />
-    <ToggleMess :Alert='Alert'/>
+    <ToggleMess 
+      v-if='isToggleMess'
+      :Alert='Alert'
+    />
   </div>
 </template>
 <script>
@@ -26,6 +34,10 @@ import ProductDialog from '@/views/dictionary/product/ProductDialog.vue'
 import PopupDel from '@/components/base/PopupDel.vue'
 import PopupWarn from '@/components/base/PopupWarn.vue'
 import ToggleMess from '@/components/base/ToggleMess.vue'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   name: "Content",
   components: {
@@ -34,13 +46,17 @@ export default {
     PopupDel,
     PopupWarn,
     ToggleMess,
+    Loading
   },
   data() {
     return{
+      isLoading: false,
+      isFullPage: false,
       isList: true,
       isDialog: false,
       isDel: false,
       isWarn: false,
+      isToggleMess: false,
       Alert: {Text: "MISA eShop", Success: true},
     };
   },
@@ -61,6 +77,10 @@ export default {
     closePopup(){
       this.isDel = false;
       this.isWarn = false;
+    },
+    HandleAlert(Alert){
+      this.isToggleMess = true;
+      this.Alert = Alert;
     }
   }
 }

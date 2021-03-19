@@ -303,6 +303,15 @@ export default {
     btnAddOnClick(){
       this.$emit('showDialog');
     },
+
+    btnEditOnClick() {
+
+    },
+
+    reloadData() {
+
+    },
+
     /**
      * Xóa hàng hóa
      */
@@ -324,9 +333,10 @@ export default {
       } 
       else {
         this.ListProDelete.push(id);
-        if(this.ListProDelete.length == this.Products.length)
+        if(this.ListProDelete.length == this.Products.length){
           document.getElementById('checkAll').checked = true;
           this.allSelected = true;
+        }  
       }
     },
     /**
@@ -336,7 +346,7 @@ export default {
       this.ListProDelete = [];
       for ( var i = 0; i < this.Products.length; i++) {
         if(!this.allSelected) this.ListProDelete.push(this.Products[i].ProductID);
-        document.getElementsByName('checkboxInput')[i].checked = !this.allSelected;
+            document.getElementsByName('checkboxInput')[i].checked = !this.allSelected;
       }
       this.allSelected = !this.allSelected;    
     },
@@ -357,7 +367,6 @@ export default {
         document.getElementById(id).classList.add("selected");
         this.selectedId = id;
       }
-      console.log(this.selectedId);
     },
     /**
      * Sự kiến nhấn đúp vào 1 hàng
@@ -393,30 +402,31 @@ Vue.filter("formatNumber", function (value) {
   display: none;
 }
 #checkboxInput{
-  width: 2%;
+  width: 10px !important;
+  margin: auto !important;
 }
-td input{
-  margin-right: 6px;
+td input[type="checkbox"]{
+  margin-left: 4px !important;
 }
 #SKUCode{
-  width: 9%;
+  min-width: 100px;
 }
 #productName{
-  width: 30%;
+  min-width: 400px;
 }
 #productCategoryID{
-  width: 12%;
+  min-width: 130px;
 }
 #unitID{
-  width: 9%;
+  min-width: 110px;
 }
 #salePrice{
-  width: 9%;
+  min-width: 110px;
 }
 #isShowInScreen{
-  width: 15%;
+  min-width: 190px;
 }
 #status{
-  width: 11%;
+  min-width: 110px;
 }
 </style>

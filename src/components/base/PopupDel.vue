@@ -60,7 +60,7 @@ export default {
   data() {
     return {
         Alert: {
-            Text: "",
+            Text: "Xóa thất bại",
             Success: false,
         },
     }
@@ -73,6 +73,13 @@ export default {
     btnCancelOnClick() {
       this.$emit('closePopupDel', true);
     },
+    /**
+     * Xóa hàng hóa
+     */
+    deleteAction(){
+      this.$emit("hanldeAlert", this.Alert);
+      this.$emit('closePopupDel', true);
+    }
   }
 };
 </script>

@@ -236,9 +236,8 @@ export default {
                 Status: 1,
                 IsShowInScreen: true,
             },
+            tags: [],
             ProductDetails: [
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
                 {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
@@ -252,6 +251,10 @@ export default {
             ],
             ErrorName: "Lỗi",
             isHideErrorName: true,
+            Alert: {
+                Text: "",
+                Success: false,
+            },
         }
     },
     methods: {
@@ -265,9 +268,9 @@ export default {
         saveProduct() {
             // validate dữ liệu trước khi cho phép thêm
             if(this.validateData() == false) {
-                // validate ko hop le.
+                // validate không hợp lệ.
                 this.Alert.Success = false;
-                this.Alert.Text = 'Bạn phải điền thông tin đúng định dạng';
+                this.Alert.Text = 'Bạn phải điền đầy đủ thông tin đúng định dạng';
                 this.$emit("hanldeAlert", this.Alert);
             }
             else{
@@ -342,21 +345,21 @@ table caption{
   display: none;
 }
 #SKUCode{
-  width: 12%;
+  min-width: 100px;
 }
 #productName{
-  width: 45%;
+  min-width: 400px;
 }
 #barcode{
-  width: 12%;
+  min-width: 100px;
 }
 #salePrice{
-  width: 12%;
+  min-width: 100px;
 }
 #buyPrice{
-  width: 9%;
+  min-width: 80px;
 }
 #delete{
-  width: 4%;
+  min-width: 30px;
 }
 </style>
