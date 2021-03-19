@@ -244,21 +244,19 @@ export default {
   data() {
       return {
           Products:[
-              {ProductID:1,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
-              {ProductID:2,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
-              {ProductID:3,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:4,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
-              {ProductID:5,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
-              {ProductID:6,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:7,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
-              {ProductID:8,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
-              {ProductID:9,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:10,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
-              {ProductID:11,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:12,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:13,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
-              {ProductID:14,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
-              {ProductID:15,SKUCode:11,ProductName:"Test",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
+              {ProductID:1,SKUCode:11,ProductName:"Test0",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
+              {ProductID:2,SKUCode:11,ProductName:"Test1",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
+              {ProductID:3,SKUCode:11,ProductName:"Test2",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:4,SKUCode:11,ProductName:"Test3",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
+              {ProductID:5,SKUCode:11,ProductName:"Test4",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
+              {ProductID:6,SKUCode:11,ProductName:"Test5",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:7,SKUCode:11,ProductName:"Test6",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
+              {ProductID:8,SKUCode:11,ProductName:"Test7",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
+              {ProductID:9,SKUCode:11,ProductName:"Test8",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:10,SKUCode:11,ProductName:"Test9",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
+              {ProductID:11,SKUCode:11,ProductName:"Test10",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:12,SKUCode:11,ProductName:"Test11",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
+              {ProductID:13,SKUCode:11,ProductName:"Test12",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
           ],
           /**
            * Dữ liệu phân trang
@@ -273,9 +271,13 @@ export default {
             number: 15
           },
           // Danh sách hàng hóa để xóa
-          ListProDelete: [],
           selectedId: null,
           allSelected: false,
+          DelInfo:{
+            content: '',
+            ListProDelete: [],
+          },
+          WarnInfo: '',
           /**
            * Dữ liệu mẫu
           */
@@ -316,24 +318,32 @@ export default {
      * Xóa hàng hóa
      */
     btnDeleteOnClick(){
-      if(this.ListProDelete.length == 0) {
-        alert("Bạn chưa chọn nhân viên nào!"); 
+      if(this.DelInfo.ListProDelete.length == 0) {
+        this.WarnInfo = "Bạn chưa chọn nhân viên nào!"; 
+        this.$emit('showPopupWarn', this.WarnInfo);
         return
-      };
-      this.$emit('showPopupDel');
+      }
+      else if(this.DelInfo.ListProDelete.length == 1){
+        const result = this.Products.filter(product => product.ProductID == this.DelInfo.ListProDelete[0]);
+        this.DelInfo.content = result[0].ProductName;
+      }
+      else{
+        this.DelInfo.content = 'tất cả hàng hóa đã chọn';
+      }
+      this.$emit('showPopupDel', this.DelInfo);
     },
     /**
      *  Thêm/Xóa phần tử vào danh sách để xóa
     */
     CheckListDelete(id, isChecked){
       if(!isChecked){
-        this.ListProDelete.splice(this.ListProDelete.indexOf(id), 1);
+        this.DelInfo.ListProDelete.splice(this.DelInfo.ListProDelete.indexOf(id), 1);
         document.getElementById('checkAll').checked = false;
         this.allSelected = false;
       } 
       else {
-        this.ListProDelete.push(id);
-        if(this.ListProDelete.length == this.Products.length){
+        this.DelInfo.ListProDelete.push(id);
+        if(this.DelInfo.ListProDelete.length == this.Products.length){
           document.getElementById('checkAll').checked = true;
           this.allSelected = true;
         }  
@@ -343,16 +353,16 @@ export default {
      * Chon tất cả hàng hóa
      */
     selectAll() {
-      this.ListProDelete = [];
+      this.DelInfo.ListProDelete = [];
       for ( var i = 0; i < this.Products.length; i++) {
-        if(!this.allSelected) this.ListProDelete.push(this.Products[i].ProductID);
+        if(!this.allSelected) this.DelInfo.ListProDelete.push(this.Products[i].ProductID);
             document.getElementsByName('checkboxInput')[i].checked = !this.allSelected;
       }
       this.allSelected = !this.allSelected;    
     },
     /**
      * Sự kiện click vào 1 hàng
-     * Created By: TXTrinh (22/02/2021)
+     * Created By: TXTrinh (17/03/2021)
      */
     rowOnClick(id){
       if(this.selectedId == id){
@@ -370,12 +380,9 @@ export default {
     },
     /**
      * Sự kiến nhấn đúp vào 1 hàng
-     * Create By: TXTrinh (22/02/2021)
+     * Create By: TXTrinh (17/03/2021)
      */
     rowOnDBClick(id){
-      //this.isHideParent = false;
-      //this.title = "Cập nhập cửa hàng";
-      //EventBus.$emit('showShop', id);
       console.log(id);
     },
   }

@@ -68,11 +68,11 @@
                     </div>
                     <div class="row">
                         <span class="input-title row">Giá mua<div class="items-dialog icons-support"></div></span>
-                        <input type="number" class="input-dialog"/>
+                        <input type="text" class="input-dialog price"/>
                     </div>
                     <div class="row">
                         <span class="input-title">Giá bán</span>
-                        <input type="number" class="input-dialog"/>
+                        <input type="text" class="input-dialog price" v-model="Product.SalePrice" @keyup="formatNumber(Product.SalePrice)"/>
                     </div>
                     <div class="row">
                         <span class="input-title">Đơn vị tính</span>
@@ -263,7 +263,7 @@ export default {
         },
         /**
          * Lưu mới cửa hàng
-         * Created By: TXTrinh (22/02/2021)
+         * Created By: TXTrinh (17/03/2021)
          */
         saveProduct() {
             // validate dữ liệu trước khi cho phép thêm
@@ -271,7 +271,7 @@ export default {
                 // validate không hợp lệ.
                 this.Alert.Success = false;
                 this.Alert.Text = 'Bạn phải điền đầy đủ thông tin đúng định dạng';
-                this.$emit("hanldeAlert", this.Alert);
+                this.$emit("hanldeAlertDialog", this.Alert);
             }
             else{
                 alert("Lưu thành công")
@@ -279,7 +279,7 @@ export default {
         },
         /**
          * Hàm Validate định dạng dữ liệu nhập vào, return: True - hợp lệ; False: không hợp lệ
-         * Created by: TXTrinh (22/02/2021)
+         * Created by: TXTrinh (17/03/2021)
          *  */ 
         validate(type) {
         const formProductName = /^[A-Za-z0-9]{1,50}$/;
@@ -321,13 +321,19 @@ export default {
                 return true;
             return false;
         },
+        
+        formatNumber(val){
+            // Bỏ kí tự ,
+            console.log(val);
+            this.Product.SalePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        },
         focusInput: function() {
             this.$refs.productName.focus();
         },
     },
     mounted(){
         this.focusInput();
-    }
+    },
 }
 </script>
 <style scoped>

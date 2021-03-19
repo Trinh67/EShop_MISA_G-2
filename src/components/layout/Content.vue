@@ -1,9 +1,9 @@
 <template>
   <div class="content">
-    <ProductList v-if="isList" @showDialog="showDialog" @showPopupDel="showPopupDel"/>
+    <ProductList v-if="isList" @showDialog="showDialog" @showPopupDel="showPopupDel" @showPopupWarn="showPopupWarn"/>
     <ProductDialog 
       v-if="isDialog" 
-      @hanldeAlert="HandleAlert"
+      @hanldeAlertDialog="handleAlert"
       @cancelDialog="cancelDialog"
     />
     <!-- Loading -->
@@ -12,18 +12,18 @@
     <!-- Popup -->
     <PopupDel
       @closePopupDel="closePopup"
-      @hanldeAlert="HandleAlert"
+      @hanldeAlertDel="handleAlert"
       v-if="isDel"
-      :productId="selectedId"
-      :productName="productNameSelected" 
+      :PopupDelInfo='PopupDelInfo'
     />
     <PopupWarn
       @closePopupWarn="closePopup"
       v-if="isWarn"
-      :titleWarnDialog="title" 
+      :PopupWarnInfo='PopupWarnInfo'
     />
     <ToggleMess 
       v-if='isToggleMess'
+      @reloadData="reload"
       :Alert='Alert'
     />
   </div>
@@ -58,6 +58,11 @@ export default {
       isWarn: false,
       isToggleMess: false,
       Alert: {Text: "MISA eShop", Success: true},
+      PopupDelInfo: {
+        listProId: [],
+        contentPopup: ''
+      },
+      PopupWarnInfo: '',
     };
   },
   methods:{
@@ -71,16 +76,27 @@ export default {
       this.isDialog = false;
       this.$emit('setTitle', 'Hàng hóa');
     },
-    showPopupDel(){
+    showPopupDel(DelInfo){
+      this.PopupDelInfo = DelInfo;
       this.isDel = true;
     },
     closePopup(){
       this.isDel = false;
       this.isWarn = false;
     },
-    HandleAlert(Alert){
+    handleAlert(Alert){
       this.isToggleMess = true;
       this.Alert = Alert;
+      setTimeout(() => {
+        this.isToggleMess = false
+      }, 2000)
+    },
+    reload(){
+      return
+    },
+    showPopupWarn(WarnInfo){
+      this.PopupWarnInfo = WarnInfo;
+      this.isWarn = true;
     }
   }
 }

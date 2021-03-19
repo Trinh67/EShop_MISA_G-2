@@ -14,13 +14,12 @@ export default {
         x.innerHTML = this.Alert.Text;
         if(this.Alert.Success == false) x.className = "showError";
         else x.className = "showCorrect";
-        console.log(this.Alert.Text);
         setTimeout(() => {
             x.className = x.className.replace("showCorrect", "");
             x.className = x.className.replace("showError", "");
         }, 2000);
         if(this.Alert.Success == true) {
-            // setTimeout(() => {reloadData()}, 0);
+            setTimeout(() => {this.$emit('reloadData')}, 0);
         }
     }
 }

@@ -21,7 +21,7 @@
         <div class="dialog-body">
             <div class="icon-warn"></div>
             <div id="title-warn">
-                Bạn gặp phải lỗi?
+                {{PopupWarnInfo}}
             </div>
         </div>
       <!-- Dialog Footer -->
@@ -43,6 +43,7 @@
 // import * as axios from "axios";
 export default {
   name: "PopupWarn",
+  props: ['PopupWarnInfo'],
   data() {
     return {
     }

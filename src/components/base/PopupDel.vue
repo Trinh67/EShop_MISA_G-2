@@ -21,7 +21,7 @@
         <div class="dialog-body">
             <div class="icon-warn"></div>
             <div id="title-warn">
-                Bạn có chắc chắn muốn xóa <strong>{{ productName }}</strong> khỏi
+                Bạn có chắc chắn muốn xóa <strong>{{ PopupDelInfo.content }}</strong> khỏi
                 danh sách hàng hóa?
             </div>
         </div>
@@ -56,7 +56,7 @@
 // import * as axios from "axios";
 export default {
   name: "PopupDel",
-  props: ['productName', 'productId'],
+  props: ['PopupDelInfo'],
   data() {
     return {
         Alert: {
@@ -77,7 +77,7 @@ export default {
      * Xóa hàng hóa
      */
     deleteAction(){
-      this.$emit("hanldeAlert", this.Alert);
+      this.$emit("hanldeAlertDel", this.Alert);
       this.$emit('closePopupDel', true);
     }
   }
