@@ -68,11 +68,21 @@
                     </div>
                     <div class="row">
                         <span class="input-title row">Giá mua<div class="items-dialog icons-support"></div></span>
-                        <input type="text" class="input-dialog price"/>
+                        <input 
+                            type="text" 
+                            class="input-dialog price"
+                            v-model="Product.BuyPrice"
+                            @keyup="formatBuyPrice(Product.BuyPrice)"
+                        />
                     </div>
                     <div class="row">
                         <span class="input-title">Giá bán</span>
-                        <input type="text" class="input-dialog price" v-model="Product.SalePrice" @keyup="formatNumber(Product.SalePrice)"/>
+                        <input 
+                            type="text" 
+                            class="input-dialog price" 
+                            v-model="Product.SalePrice" 
+                            @keyup="formatSalePrice(Product.SalePrice)"
+                        />
                     </div>
                     <div class="row">
                         <span class="input-title">Đơn vị tính</span>
@@ -322,10 +332,17 @@ export default {
             return false;
         },
         
-        formatNumber(val){
+        formatBuyPrice(val){
             // Bỏ kí tự ,
             console.log(val);
-            this.Product.SalePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+            val = val.toString().replace(/\D/g, "");
+            this.Product.BuyPrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        },
+        formatSalePrice(val){
+            // Bỏ kí tự ,
+            console.log(val);
+            val = val.toString().replace(/\D/g, "");
+            this.Product.SalePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
         },
         focusInput: function() {
             this.$refs.productName.focus();
