@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <ProductList v-if="isList" @showDialog="showDialog" @showPopupDel="showPopupDel" @showPopupWarn="showPopupWarn"/>
+    <ProductList v-if="isList" @showDialog="showDialog" @showPopupDel="showPopupDel" @showPopupWarn="showPopupWarn" @showLoading="showLoading" @hideLoading="hideLoading"/>
     <ProductDialog 
       v-if="isDialog" 
       @hanldeAlertDialog="handleAlert"
@@ -66,6 +66,12 @@ export default {
     };
   },
   methods:{
+    showLoading(){
+      this.isLoading = true;
+    },
+    hideLoading(){
+      this.isLoading = false;
+    },
     showDialog(){
       this.isList = false;
       this.isDialog = true;

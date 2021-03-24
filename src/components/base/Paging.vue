@@ -40,7 +40,7 @@ export default {
   props: ["PagingValue"],
   methods: {
     reloadData(){
-        console.log(1);
+      this.$emit('reloadProList');
     },
     /**
      * Lọc dữ liệu khi nhập số page vào ô Input
@@ -88,6 +88,7 @@ export default {
         if(this.Paging.number*(this.Paging.startPoint + 1) >= this.Paging.productDataLength) this.Paging.finishListProduct = this.Paging.productDataLength;
         else this.Paging.finishListProduct = this.Paging.number*(this.Paging.startPoint + 1);
         this.Paging.currentPage = this.Paging.startPoint + 1;
+        this.$emit('reloadProList');
     }
   },
     

@@ -33,9 +33,9 @@
                 <div class="info-body">
                     <div class="row">
                         <span class="input-title">Trạng thái kinh doanh</span>
-                        <input type="radio" class="radio-button" v-model="Product.Status" id="radio1" name="status" value="1">
+                        <input type="radio" class="radio-button" v-model="Product.status" id="radio1" name="status" value="1">
                         <label for="">Đang kinh doanh</label>
-                        <input type="radio" class="radio-button" v-model="Product.Status" id="radio2" name="status" value="0">
+                        <input type="radio" class="radio-button" v-model="Product.status" id="radio2" name="status" value="0">
                         <label for="">Ngừng kinh doanh</label>
                     </div>
                     <div class="row">
@@ -44,7 +44,7 @@
                             type="text" 
                             class="input-dialog" 
                             ref="productName" 
-                            v-model="Product.ProductName"
+                            v-model="Product.productName"
                             :class="{requireErr: !isHideErrorName}"
                             @blur="validate('productName')"
                         />
@@ -71,8 +71,8 @@
                         <input 
                             type="text" 
                             class="input-dialog price"
-                            v-model="Product.BuyPrice"
-                            @keyup="formatBuyPrice(Product.BuyPrice)"
+                            v-model="Product.buyPrice"
+                            @keyup="formatBuyPrice(Product.buyPrice)"
                         />
                     </div>
                     <div class="row">
@@ -80,8 +80,8 @@
                         <input 
                             type="text" 
                             class="input-dialog price" 
-                            v-model="Product.SalePrice" 
-                            @keyup="formatSalePrice(Product.SalePrice)"
+                            v-model="Product.salePrice" 
+                            @keyup="formatSalePrice(Product.salePrice)"
                         />
                     </div>
                     <div class="row">
@@ -94,7 +94,7 @@
                         <input class="disable-input" disabled placeholder="+"/>
                     </div>
                     <div class="row">
-                        <input type="checkbox" v-model="Product.IsShowInScreen" class=""/>
+                        <input type="checkbox" v-model="Product.isShowInScreen" class=""/>
                         <span id="isShow-text">Hiển thị trên màn hình bán hàng</span>
                         <div class="items-dialog icons-support"></div>
                     </div>
@@ -161,14 +161,14 @@
                             <tbody>
                                 <tr class="table__row"
                                     v-for="Product in ProductDetails"
-                                    :key="Product.ProductId"
-                                    :id="Product.ProductId"
+                                    :key="Product.productId"
+                                    :id="Product.productId"
                                 >
-                                    <td>{{ Product.ProductName }}</td>
-                                    <td>{{ Product.SKUCode }}</td>
-                                    <td>{{ Product.BarCode }}</td>
-                                    <td class="right">{{ Product.SalePrice | formatNumber}}</td>
-                                    <td class="right">{{ Product.BuyPrice | formatNumber}}</td>
+                                    <td>{{ Product.productName }}</td>
+                                    <td>{{ Product.skuCode }}</td>
+                                    <td>{{ Product.barCode }}</td>
+                                    <td class="right">{{ Product.salePrice | formatNumber}}</td>
+                                    <td class="right">{{ Product.buyPrice | formatNumber}}</td>
                                     <td><div class="btn-toolbar-icon icon-delete-attr"></div></td>
                                 </tr>
                             </tbody>
@@ -243,21 +243,12 @@ export default {
     data() {
         return {
             Product:{
-                Status: 1,
-                IsShowInScreen: true,
+                status: 1,
+                isShowInScreen: true,
             },
             tags: [],
             ProductDetails: [
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
-                {ProductName: "Test", SKUCode: "T-01", BarCode: "16498456", SalePrice: 100000, BuyPrice: 200000,},
+                {productName: "Test", skuCode: "T-01", barCode: "16498456", salePrice: 100000, buyPrice: 200000,},
             ],
             ErrorName: "Lỗi",
             isHideErrorName: true,
@@ -298,11 +289,11 @@ export default {
             case 'productName':  
             // Validate productName:
             { 
-                if((this.Product.ProductName == null) || (this.Product.ProductName.trim()=='')) {
+                if((this.Product.productName == null) || (this.Product.productName.trim()=='')) {
                     this.isHideErrorName = false;
                     this.ErrorName = "* Tên hàng hóa không được để trống"
                 }
-                else if(formProductName.test(this.Product.ProductName.trim())==false){
+                else if(formProductName.test(this.Product.productName.trim())==false){
                     this.isHideErrorName = false;
                     this.ErrorName = "* Tên hàng hóa chỉ chứa kí tự chữ hoặc số"
                 }
@@ -336,13 +327,13 @@ export default {
             // Bỏ kí tự ,
             console.log(val);
             val = val.toString().replace(/\D/g, "");
-            this.Product.BuyPrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            this.Product.buyPrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
         },
         formatSalePrice(val){
             // Bỏ kí tự ,
             console.log(val);
             val = val.toString().replace(/\D/g, "");
-            this.Product.SalePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            this.Product.salePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
         },
         focusInput: function() {
             this.$refs.productName.focus();

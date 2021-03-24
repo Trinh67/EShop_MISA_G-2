@@ -34,8 +34,9 @@
         <button 
           title="Nạp"
           class="m-btn m-btn-default"
+          @click="reloadData"
         >
-          <div class="btn-toolbar-icon icon-load" @click="reloadData"></div> Nạp 
+          <div class="btn-toolbar-icon icon-load"></div> Nạp 
         </button>
       </div>
     </div> 
@@ -69,8 +70,8 @@
                   id="txtSearchSKUCode"
                   class="input-search"
                   type="text"
-                  v-model="Filter.txtSearchSKUCode"
-                  @change="SearchProduct()"
+                  v-model="Filter.txtSKUCode"
+                  @change="FilterProduct()"
                 />
               </div>
               
@@ -87,8 +88,8 @@
                   id="txtSearchProductName"
                   class="input-search"
                   type="text"
-                  v-model="Filter.txtSearchProductName"
-                  @change="SearchProduct()"
+                  v-model="Filter.txtProductName"
+                  @change="FilterProduct()"
                 />
               </div>
             </th>
@@ -104,8 +105,8 @@
                   id="txtSearchProductCategory"
                   class="input-search"
                   type="text"
-                  v-model="Filter.txtSearchProductCategory"
-                  @change="SearchProduct()"
+                  v-model="Filter.txtProductCategory"
+                  @change="FilterProduct()"
                 />
               </div>
             </th>
@@ -121,8 +122,8 @@
                   id="txtSearchUnit"
                   class="input-search"
                   type="text"
-                  v-model="Filter.txtSearchUnit"
-                  @change="SearchProduct()"
+                  v-model="Filter.txtUnit"
+                  @change="FilterProduct()"
                 />
               </div>
             </th>
@@ -138,8 +139,8 @@
                   id="txtSearchSalePrice"
                   class="input-search"
                   type="text"
-                  v-model="Filter.txtSearchSalePrice"
-                  @change="SearchProduct()"
+                  v-model="Filter.txtSalePrice"
+                  @change="FilterProduct()"
                 />
               </div>
             </th>
@@ -154,14 +155,14 @@
                 <select
                   id="txtSearchIsShow"
                   class="m-control"
-                  v-model="Filter.txtSearchIsShow"
-                  @change="SearchProduct()"
+                  v-model="Filter.txtIsShow"
+                  @change="FilterProduct()"
                 >
                   <option value="">
                     Tất cả
                   </option>
-                  <option class="1" value="">Có</option>
-                  <option class="0" value="">Không</option>
+                  <option class="" value="1">Có</option>
+                  <option class="" value="0">Không</option>
                 </select>
               </div>
             </th>
@@ -175,14 +176,14 @@
                 <select
                   id="txtSearchStatus"
                   class="m-control"
-                  v-model="Filter.txtSearchStatus"
-                  @change="SearchProduct()"
+                  v-model="Filter.txtStatus"
+                  @change="FilterProduct()"
                 >
                   <option value="">
                     Tất cả trạng thái
                   </option>
-                  <option class="1" value="">Đang kinh doanh</option>
-                  <option class="0" value="">Ngừng kinh doanh</option>
+                  <option class="" value="1">Đang kinh doanh</option>
+                  <option class="" value="0">Ngừng kinh doanh</option>
                 </select>
               </div>
             </th>
@@ -192,31 +193,31 @@
           <tr
             class="table__row"
             v-for="Product in Products"
-            :key="Product.ProductID"
-            :id="Product.ProductID"
-            @click="rowOnClick(Product.ProductID)"
-            @dblclick="rowOnDBClick(Product.ProductID)"
+            :key="Product.productID"
+            :id="Product.productID"
+            @click="rowOnClick(Product.productID)"
+            @dblclick="rowOnDBClick(Product.productID)"
           >
-            <td><input type="checkbox" @change="CheckListDelete(Product.ProductID, Product.isChecked)" v-model="Product.isChecked" name="checkboxInput"></td>
+            <td><input type="checkbox" @change="CheckListDelete(Product.productID, Product.isChecked)" v-model="Product.isChecked" name="checkboxInput"></td>
             <td>
-              <div>{{ Product.SKUCode }}</div>
+              <div>{{ Product.skuCode }}</div>
             </td>
             <td>
-              <div>{{ Product.ProductName }}</div>
+              <div>{{ Product.productName }}</div>
             </td>
             <td>
-              <div>{{ Product.ProductCategoryID }}</div>
+              <div>{{ Product.productCategoryName }}</div>
             </td>
             <td>
-              <div>{{ Product.UnitID }}</div>
+              <div>{{ Product.unitName }}</div>
             </td>
             <td>
-              <div class="right">{{ Product.SalePrice | formatNumber}}</div>
+              <div class="right">{{ Product.salePrice | formatNumber}}</div>
             </td><td>
-              <div>{{ isShow[Product.ShowInScreen] }}</div>
+              <div>{{ isShow[Product.showInScreen] }}</div>
             </td>
             <td>
-              <div>{{statusList[Product.Status]}}</div>
+              <div>{{statusList[Product.status]}}</div>
             </td>
           </tr>
         </tbody>
@@ -226,6 +227,7 @@
     <!-- Content footer -->
     <Paging 
       :PagingValue="PagingValue"
+      @reloadProList="reloadData"
     />
     <!-- End Content Footer -->
   </div>
@@ -236,6 +238,7 @@
 import Vue from 'vue';
 import '@/styles/pages/productList.scss';
 import Paging from '@/components/base/Paging.vue'
+import productServices from '../../../service/productService'
 export default {
   name: "ProductList",
   components: {
@@ -243,21 +246,7 @@ export default {
   },
   data() {
       return {
-          Products:[
-              {ProductID:1,SKUCode:11,ProductName:"Test0",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
-              {ProductID:2,SKUCode:11,ProductName:"Test1",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
-              {ProductID:3,SKUCode:11,ProductName:"Test2",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:4,SKUCode:11,ProductName:"Test3",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
-              {ProductID:5,SKUCode:11,ProductName:"Test4",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:1,isChecked: false},
-              {ProductID:6,SKUCode:11,ProductName:"Test5",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:7,SKUCode:11,ProductName:"Test6",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
-              {ProductID:8,SKUCode:11,ProductName:"Test7",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
-              {ProductID:9,SKUCode:11,ProductName:"Test8",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:10,SKUCode:11,ProductName:"Test9",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:1,Status:0,isChecked: false},
-              {ProductID:11,SKUCode:11,ProductName:"Test10",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:12,SKUCode:11,ProductName:"Test11",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:0,isChecked: false},
-              {ProductID:13,SKUCode:11,ProductName:"Test12",ProductCategoryID:12,UnitID:1,SalePrice: 100000,ShowInScreen:0,Status:1,isChecked: false},
-          ],
+          Products:[],
           /**
            * Dữ liệu phân trang
            */
@@ -287,13 +276,15 @@ export default {
            * Dữ liệu lọc theo điều kiện
            */
           Filter: {
-            txtSearchSKUCode: "",
-            txtSearchProductName: "",
-            txtSearchProductCategory: "",
-            txtSearchUnit: "",
-            txtSearchSalePrice: "",
-            txtSearchIsShow: "",
-            txtSearchStatus: "",
+            txtSKUCode: null,
+            txtProductName: null,
+            txtProductCategory: null,
+            txtUnit: null,
+            txtSalePrice: null,
+            txtIsShow: "",
+            txtStatus: "",
+            startPoint: 0,
+            number: 15
           }
       }
   },
@@ -310,8 +301,18 @@ export default {
 
     },
 
-    reloadData() {
-
+    reloadData(){
+      this.Filter.startPoint = this.PagingValue.startPoint;
+      this.Filter.number = this.PagingValue.number;
+      this.FilterProduct();
+    },
+    /**
+     * Lọc dữ liệu theo các đầu vào
+     */
+    async FilterProduct(){
+      this.$emit('showLoading');
+      this.Products = await productServices.getProduct(this.Filter);
+      this.$emit('hideLoading');
     },
 
     /**
@@ -324,8 +325,8 @@ export default {
         return
       }
       else if(this.DelInfo.ListProDelete.length == 1){
-        const result = this.Products.filter(product => product.ProductID == this.DelInfo.ListProDelete[0]);
-        this.DelInfo.content = result[0].ProductName;
+        const result = this.Products.filter(product => product.productID == this.DelInfo.ListProDelete[0]);
+        this.DelInfo.content = result[0].productName;
       }
       else{
         this.DelInfo.content = 'tất cả hàng hóa đã chọn';
@@ -355,7 +356,7 @@ export default {
     selectAll() {
       this.DelInfo.ListProDelete = [];
       for ( var i = 0; i < this.Products.length; i++) {
-        if(!this.allSelected) this.DelInfo.ListProDelete.push(this.Products[i].ProductID);
+        if(!this.allSelected) this.DelInfo.ListProDelete.push(this.Products[i].productID);
             document.getElementsByName('checkboxInput')[i].checked = !this.allSelected;
       }
       this.allSelected = !this.allSelected;    
@@ -385,6 +386,13 @@ export default {
     rowOnDBClick(id){
       console.log(id);
     },
+  },
+  async mounted(){
+    this.$emit('showLoading');
+    this.PagingValue.productDataLength = await productServices.quantityProduct(this.Filter);
+    this.PagingValue.totalPage = Math.ceil(this.PagingValue.productDataLength/this.PagingValue.number);
+    this.$emit('hideLoading');
+    this.FilterProduct();
   }
 };
 
@@ -428,7 +436,7 @@ td input[type="checkbox"]{
   min-width: 110px;
 }
 #salePrice{
-  min-width: 110px;
+  min-width: 120px;
 }
 #isShowInScreen{
   min-width: 190px;
