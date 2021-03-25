@@ -98,7 +98,7 @@ export default {
       }, 2000)
     },
     reload(){
-      return
+      return 
     },
     showPopupWarn(WarnInfo){
       this.PopupWarnInfo = WarnInfo;

@@ -239,6 +239,7 @@ import Vue from 'vue';
 import '@/styles/pages/productList.scss';
 import Paging from '@/components/base/Paging.vue'
 import productServices from '../../../service/productService'
+import { EventBus } from '@/even-bus/EventBus.js'
 export default {
   name: "ProductList",
   components: {
@@ -304,8 +305,8 @@ export default {
      * Load lại dữ liệu
      */
     reloadData(){
-      this.Filter.startPoint = this.PagingValue.startPoint;
       this.Filter.number = this.PagingValue.number;
+      this.Filter.startPoint = this.PagingValue.startPoint*this.Filter.number;
       this.FilterProduct();
     },
     /**
@@ -332,12 +333,12 @@ export default {
      */
     btnDeleteOnClick(){
       if(this.DelInfo.ListProDelete.length == 0) {
-        this.WarnInfo = "Bạn chưa chọn nhân viên nào!"; 
+        this.WarnInfo = "Bạn chưa chọn hàng hóa nào!";
         this.$emit('showPopupWarn', this.WarnInfo);
         return
       }
       else if(this.DelInfo.ListProDelete.length == 1){
-        const result = this.Products.filter(product => product.productID == this.DelInfo.ListProDelete[0]);
+        const result = this.Products.filter(product => product.productID == this.DelInfo.ListProDelete);
         this.DelInfo.content = result[0].productName;
       }
       else{
@@ -400,14 +401,11 @@ export default {
     },
   },
   async mounted(){
-    this.$emit('showLoading');
-    this.PagingValue.productDataLength = await productServices.quantityProduct(this.Filter);
-    this.PagingValue.totalPage = Math.ceil(this.PagingValue.productDataLength/this.PagingValue.number);
-    this.$emit('hideLoading');
     this.FilterProduct();
+    EventBus.$on('reloadData', () => this.reloadData());
   }
 };
-
+    
 /**
  * Format Number
  */

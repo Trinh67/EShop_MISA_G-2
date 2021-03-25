@@ -79,13 +79,20 @@ const quantityProduct = async (Parameters) => {
 //   return result;
 // };
 
-// const deleteProduct = async (id) => {
-//   await axios.delete(ApiUrl + id);
-// };
+const deleteProduct = async (listId) => {
+  const deletePro = axios.post(ApiUrl + "/DeleteList", listId).then((response) => {
+    return response;
+  })
+  .catch((err) => {
+    return err.response.data.UserMsg;
+  });
+  const res = await deletePro;
+  return res.data.misaCode;
+};
 
 export default {
   getProduct,
-//   deleteProduct,
+  deleteProduct,
 //   updateProduct,
 //   insertProduct,
 //   getProductById,

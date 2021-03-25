@@ -53,7 +53,8 @@
   </div>
 </template>
 <script>
-// import * as axios from "axios";
+import productServices from '../../service/productService'
+import { EventBus } from '../../even-bus/EventBus.js'
 export default {
   name: "PopupDel",
   props: ['PopupDelInfo'],
@@ -76,9 +77,15 @@ export default {
     /**
      * Xóa hàng hóa
      */
-    deleteAction(){
+    async deleteAction(){
+      const code = await productServices.deleteProduct(this.PopupDelInfo.ListProDelete);
+      if(code == 200){
+        this.Alert.Success = true;
+        this.Alert.Text = "Xóa hàng hóa thành công!"
+      }
       this.$emit("hanldeAlertDel", this.Alert);
       this.$emit('closePopupDel', true);
+      EventBus.$emit('reloadData');
     }
   }
 };
