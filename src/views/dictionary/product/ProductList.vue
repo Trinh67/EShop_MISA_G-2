@@ -300,7 +300,9 @@ export default {
     btnEditOnClick() {
 
     },
-
+    /**
+     * Load lại dữ liệu
+     */
     reloadData(){
       this.Filter.startPoint = this.PagingValue.startPoint;
       this.Filter.number = this.PagingValue.number;
@@ -310,11 +312,21 @@ export default {
      * Lọc dữ liệu theo các đầu vào
      */
     async FilterProduct(){
+      this.CountProduct();
       this.$emit('showLoading');
       this.Products = await productServices.getProduct(this.Filter);
       this.$emit('hideLoading');
     },
-
+    /**
+     * Lấy số lượng hàng hóa
+     */
+    async CountProduct(){
+      this.$emit('showLoading');
+      this.PagingValue.productDataLength = await productServices.quantityProduct(this.Filter);
+      if(this.PagingValue.finishListProduct > this.PagingValue.productDataLength) this.PagingValue.finishListProduct = this.PagingValue.productDataLength;
+      this.PagingValue.totalPage = Math.ceil(this.PagingValue.productDataLength/this.PagingValue.number);
+      this.$emit('hideLoading');
+    },
     /**
      * Xóa hàng hóa
      */
