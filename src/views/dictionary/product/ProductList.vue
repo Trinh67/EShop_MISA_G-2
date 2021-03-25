@@ -13,13 +13,15 @@
         </button>
         <button 
           title="Nhân bản"
-          class="m-btn m-btn-default disable-button"
-          @click="btnEditOnClick"
+          id="multiply"
+          class="m-btn m-btn-default"
+          @click="btnDupbleOnClick"
         >
           <div class="btn-toolbar-icon icon-multiply"></div> Nhân bản
         </button>
         <button
           title="Sửa" 
+          id="edit"
           class="m-btn m-btn-default"
           @click="btnEditOnClick"
         >
@@ -196,7 +198,7 @@
             :key="Product.productID"
             :id="Product.productID"
             @click="rowOnClick(Product.productID)"
-            @dblclick="rowOnDBClick(Product.productID)"
+            @dblclick="rowOnDBClick()"
           >
             <td><input type="checkbox" @change="CheckListDelete(Product.productID, Product.isChecked)" v-model="Product.isChecked" name="checkboxInput"></td>
             <td>
@@ -297,9 +299,17 @@ export default {
     btnAddOnClick(){
       this.$emit('showDialog');
     },
-
+    /**
+     * Mở dialog sửa
+     */
     btnEditOnClick() {
-
+      this.$emit('showEditDialog', this.selectedId);
+    },
+    /**
+     * Mở dialog sửa
+     */
+    btnDupbleOnClick() {
+      this.$emit('showDupbleDialog', this.selectedId);
     },
     /**
      * Load lại dữ liệu
@@ -316,6 +326,7 @@ export default {
       this.CountProduct();
       this.$emit('showLoading');
       this.Products = await productServices.getProduct(this.Filter);
+      this.selectedId = this.Products[0].productID;
       this.$emit('hideLoading');
     },
     /**
@@ -339,7 +350,7 @@ export default {
       }
       else if(this.DelInfo.ListProDelete.length == 1){
         const result = this.Products.filter(product => product.productID == this.DelInfo.ListProDelete);
-        this.DelInfo.content = result[0].productName;
+        this.DelInfo.content = result[0].productName + '(' + result[0].skuCode + ')';
       }
       else{
         this.DelInfo.content = 'tất cả hàng hóa đã chọn';
@@ -362,6 +373,14 @@ export default {
           this.allSelected = true;
         }  
       }
+      if(this.DelInfo.ListProDelete.length > 1) {
+        document.getElementById('multiply').classList.add("disable-button");
+        document.getElementById('edit').classList.add("disable-button");
+      }
+      else{
+        document.getElementById('multiply').classList.remove("disable-button");
+        document.getElementById('edit').classList.remove("disable-button");
+      }
     },
     /**
      * Chon tất cả hàng hóa
@@ -373,37 +392,58 @@ export default {
             document.getElementsByName('checkboxInput')[i].checked = !this.allSelected;
       }
       this.allSelected = !this.allSelected;    
+
+      if(this.DelInfo.ListProDelete.length > 1) {
+        document.getElementById('multiply').classList.add("disable-button");
+        document.getElementById('edit').classList.add("disable-button");
+      }
+      else{
+        document.getElementById('multiply').classList.remove("disable-button");
+        document.getElementById('edit').classList.remove("disable-button");
+      }
     },
     /**
      * Sự kiện click vào 1 hàng
      * Created By: TXTrinh (17/03/2021)
      */
     rowOnClick(id){
-      if(this.selectedId == id){
-       document.getElementById(id).classList.remove("selected");
-       this.selectedId = null;
-      }
-      else if(this.selectedId != null && this.selectedId!= ""){
+      if(this.selectedId != null && this.selectedId!= ""){
         document.getElementById(this.selectedId).classList.remove("selected");
         document.getElementById(id).classList.add("selected");
         this.selectedId = id;
       } else{
         document.getElementById(id).classList.add("selected");
         this.selectedId = id;
-      }
+      };
     },
     /**
      * Sự kiến nhấn đúp vào 1 hàng
      * Create By: TXTrinh (17/03/2021)
      */
-    rowOnDBClick(id){
-      console.log(id);
+    rowOnDBClick(){
+      this.btnEditOnClick();
     },
+    /**
+     * Format giá bán
+     */
+    // formatSalePrice(val){
+    //     // Bỏ kí tự ,
+    //     console.log(val);
+    //     val = val.toString().replace(/\D/g, "");
+    //     this.Filter.txtSalePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    // },
   },
   async mounted(){
     this.FilterProduct();
-    EventBus.$on('reloadData', () => this.reloadData());
-  }
+    EventBus.$on('reloadData', () => {
+      this.selectedId = null;
+      this.DelInfo = {
+        content: '',
+        ListProDelete: [],
+      };
+      this.reloadData()
+    });
+  },
 };
     
 /**

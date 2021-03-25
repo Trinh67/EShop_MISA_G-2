@@ -55,16 +55,23 @@
                     </div>
                     <div class="row">
                         <span class="input-title">Nhóm hàng hóa</span>
-                        <select class="input-dialog">
-                            <option>Giày</option>
-                            <option>Áo</option>
-                            <option>Mũ</option>
+                        <select class="input-dialog" v-model="Product.productCategoryID">
+                            <option value="1">Trang phục</option>
+                            <option value="2">Áo</option>
+                            <option value="3">Quần</option>
+                            <option value="4">Áo phông</option>
+                            <option value="5">Áo khoác Nữ</option>
+                            <option value="6">Áo khoác Nam</option>
+                            <option value="7">Giầy</option>
+                            <option value="8">Giầy thể thao</option>
+                            <option value="9">Giầy da</option>
+                            <option value="10">Mũ</option>
                         </select>
                         <input class="disable-input" disabled placeholder="+"/>
                     </div>
                     <div class="row">
                         <span class="input-title" ref="SKUCode">Mã SKU</span>
-                        <input type="text" class="input-dialog"/>
+                        <input type="text" class="input-dialog" v-model="Product.skuCode"/>
                     </div>
                     <div class="row">
                         <span class="input-title row">Giá mua<div class="items-dialog icons-support"></div></span>
@@ -86,15 +93,20 @@
                     </div>
                     <div class="row">
                         <span class="input-title">Đơn vị tính</span>
-                        <select class="input-dialog">
-                            <option>Chiếc</option>
-                            <option>Đôi</option>
-                            <option>Chục</option>
+                        <select class="input-dialog" v-model="Product.unitID">
+                            <option value="1">Bộ</option>
+                            <option value="2">Cái</option>
+                            <option value="3">Chiếc</option>
+                            <option value="4">Chục</option>
+                            <option value="5">Đôi</option>
+                            <option value="6">Hộp</option>
+                            <option value="7">Mét</option>
+                            <option value="8">Tá</option>
                         </select>
                         <input class="disable-input" disabled placeholder="+"/>
                     </div>
                     <div class="row">
-                        <input type="checkbox" v-model="Product.isShowInScreen" class=""/>
+                        <input type="checkbox" v-model="Product.showInScreen" class=""/>
                         <span id="isShow-text">Hiển thị trên màn hình bán hàng</span>
                         <div class="items-dialog icons-support"></div>
                     </div>
@@ -180,7 +192,7 @@
                 <div class="info-title">Thông tin bổ sung</div>
                 <div class="row">
                     <span class="input-title">Mô tả</span>
-                    <textarea id="description"/>
+                    <textarea id="description" v-model="Product.description"/>
                 </div>
                 <div class="row">
                     <span class="input-title">Ảnh hàng hóa</span>
@@ -235,16 +247,34 @@
 <script>
 import '@/styles/pages/dialogs/ProductDialog.scss'
 import InputTag from 'vue-input-tag'
+import productServices from '@/service/productService'
 export default {
     name: 'ProductDialog',
+    props: ['ProductID', 'isEdit'],
     components: {
       InputTag
     },
     data() {
         return {
+            Data:{
+                "skuCode": null,
+                "productName": null,
+                "productCategoryID": 1,
+                "productCategoryName": null,
+                "unitID": 1,
+                "unitName": null,
+                "salePrice": 0,
+                "buyPrice": 0,
+                "showInScreen": 1,
+                "status": 1,
+                "description": null,
+                "image": null,
+                "barCode": 999999,
+                "color": null,
+                "parentID": 0
+            },
             Product:{
-                status: 1,
-                isShowInScreen: true,
+                
             },
             tags: [],
             ProductDetails: [
@@ -256,6 +286,9 @@ export default {
                 Text: "",
                 Success: false,
             },
+            WarnInfo: {
+                content: "",
+            }
         }
     },
     methods: {
@@ -263,10 +296,18 @@ export default {
             this.$emit('cancelDialog');
         },
         /**
+         * Lấy thông tin hàng hóa
+         */
+        async getProductData(){
+            this.Product = await productServices.getProductById(this.ProductID);
+            this.formatBuyPrice(this.Product.buyPrice);
+            this.formatSalePrice(this.Product.salePrice);
+        },
+        /**
          * Lưu mới cửa hàng
          * Created By: TXTrinh (17/03/2021)
          */
-        saveProduct() {
+        async saveProduct() {
             // validate dữ liệu trước khi cho phép thêm
             if(this.validateData() == false) {
                 // validate không hợp lệ.
@@ -275,7 +316,30 @@ export default {
                 this.$emit("hanldeAlertDialog", this.Alert);
             }
             else{
-                alert("Lưu thành công")
+                if(this.Product.showInScreen == false) this.Product.showInScreen = 0;
+                else this.Product.showInScreen = 1;
+                this.Product.buyPrice = this.Product.buyPrice.replace('.', '');
+                this.Product.salePrice = this.Product.salePrice.replace('.', '');
+                let result;
+                if(this.isEdit == false) {
+                    result = await productServices.insertProduct(this.Product)
+                }
+                else {
+                    result = await productServices.updateProduct(this.Product)
+                }
+                if(result.data == 1){
+                    this.Alert.Success = true;
+                    this.Alert.Text = result.userMsg;
+                    this.$emit("hanldeAlertDialog", this.Alert);
+                    this.$emit('cancelDialog');
+                }
+                else{
+                    for(let i = 0; i < result.userMsg.length; i++){
+                        this.WarnInfo.content += result.userMsg[i] + "\n";
+                    }
+                    this.$emit('showPopupWarn', this.WarnInfo.content);
+                    this.WarnInfo.content = "";
+                }
             }
         },
         /**
@@ -283,7 +347,7 @@ export default {
          * Created by: TXTrinh (17/03/2021)
          *  */ 
         validate(type) {
-        const formProductName = /^[A-Za-z0-9]{1,50}$/;
+        const formProductName = /^[A-Za-z0-9 AÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶEÉÈẺẼẸÊẾỀỂỄỆIÍÌỈĨỊOÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢUÚÙỦŨỤƯỨỪỬỮỰYÝỲỶỸỴĐaáàảãạâấầẩẫậăắằẳẵặeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵđ]{1,50}$/;
         
         switch (type) {
             case 'productName':  
@@ -340,6 +404,10 @@ export default {
         },
     },
     mounted(){
+        this.Product = this.Data;
+        if(this.ProductID != null) {
+            this.getProductData();
+        }
         this.focusInput();
     },
 }

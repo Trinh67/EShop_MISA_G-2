@@ -131,7 +131,7 @@ div.icon-warn{
   background-size: cover;
 }
 #title-warn{
-  padding: 24px 16px 16px 16px;
+  padding: 24px 8px 8px 16px;
 }
 .dialog-footer {
   display: flex;

@@ -1,10 +1,21 @@
 <template>
   <div class="content">
-    <ProductList v-if="isList" @showDialog="showDialog" @showPopupDel="showPopupDel" @showPopupWarn="showPopupWarn" @showLoading="showLoading" @hideLoading="hideLoading"/>
+    <ProductList 
+      v-if="isList" 
+      @showDialog="showDialog" 
+      @showEditDialog="showEditDialog"
+      @showDupbleDialog="showDupbleDialog"
+      @showPopupDel="showPopupDel" 
+      @showPopupWarn="showPopupWarn" 
+      @showLoading="showLoading" 
+      @hideLoading="hideLoading"/>
     <ProductDialog 
       v-if="isDialog" 
+      :ProductID="productID"
+      :isEdit="isEdit"
       @hanldeAlertDialog="handleAlert"
       @cancelDialog="cancelDialog"
+      @showPopupWarn="showPopupWarn"
     />
     <!-- Loading -->
     <loading :active.sync="isLoading"  
@@ -57,6 +68,8 @@ export default {
       isDel: false,
       isWarn: false,
       isToggleMess: false,
+      productID: null,
+      isEdit: false,
       Alert: {Text: "MISA eShop", Success: true},
       PopupDelInfo: {
         listProId: [],
@@ -77,9 +90,24 @@ export default {
       this.isDialog = true;
       this.$emit('setTitle', 'Hàng hóa / Thêm mới');
     },
+    showEditDialog(id){
+      this.isList = false;
+      this.isDialog = true;
+      this.productID = id;
+      this.isEdit = true;
+      this.$emit('setTitle', 'Hàng hóa / Cập nhập');
+    },
+    showDupbleDialog(id){
+      this.isList = false;
+      this.isDialog = true;
+      this.productID = id;
+      this.$emit('setTitle', 'Hàng hóa / Nhân bản');
+    },
     cancelDialog(){
       this.isList = true;
       this.isDialog = false;
+      this.isEdit = false;
+      this.productID = null;
       this.$emit('setTitle', 'Hàng hóa');
     },
     showPopupDel(DelInfo){

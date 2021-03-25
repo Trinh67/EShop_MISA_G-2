@@ -8,7 +8,7 @@ const getProduct = async (Parameters) => {
     return response;
   })
   .catch((err) => {
-    return err.response.data.UserMsg;
+    return err.response;
   });
   const res = await Products;
   return res.data;
@@ -19,72 +19,52 @@ const quantityProduct = async (Parameters) => {
       return response;
     })
     .catch((err) => {
-      return err.response.data.UserMsg;
+      return err.response;
     });
     const res = await quantity;
     return res.data[0].total;
 };
 
-// const GetProductOfPage = async (offset, size) => {
-//   const Products = axios
-//     .get(ApiUrl + "page/" + offset + "&" + size)
-//     .then((res) => {
-//       return res;
-//     });
-//   let res = await Products;
-//   return res.data;
-// };
+const getProductById = async (id) => {
+  const Product = axios.get(ApiUrl + '/' + id).then((response) => {
+    return response;
+  });
+  const res = await Product;
+  return res.data[0];
+};
 
-// const getProductById = async (id) => {
-//   const Product = axios.get(ApiUrl + id).then((res) => {
-//     return res;
-//   });
-//   let res = await Product;
-//   return res.data[0];
-// };
+const updateProduct = async (Product) => {
+  const updatePro = axios
+    .put(ApiUrl, Product)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  const result = await updatePro;
+  return result.data;
+};
 
-// const updateProduct = async (Product) => {
-//   const result = {
-//     Success: true,
-//     data: "",
-//   };
-//   const res = axios
-//     .put(ApiUrl, Product)
-//     .then((res) => {
-//       return res;
-//     })
-//     .catch((err) => {
-//       result.Success = false;
-//       return err.response.data.UserMsg;
-//     });
-//   result.data = await res;
-//   return result;
-// };
-
-// const insertProduct = async (Product) => {
-//   const result = {
-//     Success: true,
-//     data: "",
-//   };
-//   const res = axios
-//     .post(ApiUrl, Product)
-//     .then((res) => {
-//       return res;
-//     })
-//     .catch((err) => {
-//       result.Success = false;
-//       return err.response.data.UserMsg;
-//     });
-//   result.data = await res;
-//   return result;
-// };
+const insertProduct = async (Product) => {
+  const insertPro = axios
+    .post(ApiUrl, Product)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  const result = await insertPro;
+  return result.data;
+};
 
 const deleteProduct = async (listId) => {
   const deletePro = axios.post(ApiUrl + "/DeleteList", listId).then((response) => {
     return response;
   })
   .catch((err) => {
-    return err.response.data.UserMsg;
+    return err.response;
   });
   const res = await deletePro;
   return res.data.misaCode;
@@ -93,9 +73,8 @@ const deleteProduct = async (listId) => {
 export default {
   getProduct,
   deleteProduct,
-//   updateProduct,
-//   insertProduct,
-//   getProductById,
+  updateProduct,
+  insertProduct,
+  getProductById,
   quantityProduct,
-//   GetProductOfPage,
 };
