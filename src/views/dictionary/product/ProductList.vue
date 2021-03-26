@@ -350,7 +350,7 @@ export default {
       }
       else if(this.DelInfo.ListProDelete.length == 1){
         const result = this.Products.filter(product => product.productID == this.DelInfo.ListProDelete);
-        this.DelInfo.content = result[0].productName + '(' + result[0].skuCode + ')';
+        this.DelInfo.content = result[0].productName + ' (' + result[0].skuCode + ')';
       }
       else{
         this.DelInfo.content = 'tất cả hàng hóa đã chọn';

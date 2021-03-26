@@ -70,6 +70,17 @@ const deleteProduct = async (listId) => {
   return res.data.misaCode;
 };
 
+const genSKUCode = async (name) => {
+  const genCode = axios.get(ApiUrl + "/GenSKUCode?name=" + name).then((response) => {
+    return response;
+  })
+  .catch((err) => {
+    return err.response;
+  });
+  const res = await genCode;
+  return res.data.data[0];
+};
+
 export default {
   getProduct,
   deleteProduct,
@@ -77,4 +88,5 @@ export default {
   insertProduct,
   getProductById,
   quantityProduct,
+  genSKUCode,
 };
