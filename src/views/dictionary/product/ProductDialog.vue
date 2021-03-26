@@ -277,7 +277,6 @@ export default {
                 "parentID": 0
             },
             Product:{
-                
             },
             colors: [],
             ProductDetails: [
@@ -299,7 +298,11 @@ export default {
          * Thoát Dialog
          */
         btnCancelOnClick(){
-            this.$emit('cancelDialog');
+            try {
+                this.$emit('cancelDialog');
+            } catch (error) {
+                console.log(error);
+            }
         },
         /**
          * Lấy thông tin hàng hóa
@@ -317,38 +320,43 @@ export default {
          * Created By: TXTrinh (17/03/2021)
          */
         async saveProduct() {
-            // validate dữ liệu trước khi cho phép thêm
-            if(this.validateData() == false) {
-                // validate không hợp lệ.
-                this.Alert.Success = false;
-                this.Alert.Text = 'Bạn phải điền đầy đủ thông tin đúng định dạng';
-                this.$emit("hanldeAlertDialog", this.Alert);
-            }
-            else{
-                if(this.Product.showInScreen == false) this.Product.showInScreen = 0;
-                else this.Product.showInScreen = 1;
-                this.Product.buyPrice = this.Product.buyPrice.toString().replace('.', '');
-                this.Product.salePrice = this.Product.salePrice.toString().replace('.', '');
-                let result;
-                if(this.isEdit == false) {
-                    result = await productServices.insertProduct(this.Product)
-                }
-                else {
-                    result = await productServices.updateProduct(this.Product)
-                }
-                if(result.data == 1){
-                    this.Alert.Success = true;
-                    this.Alert.Text = result.userMsg;
+            try {
+                
+                // validate dữ liệu trước khi cho phép thêm
+                if(this.validateData() == false) {
+                    // validate không hợp lệ.
+                    this.Alert.Success = false;
+                    this.Alert.Text = 'Bạn phải điền đầy đủ thông tin đúng định dạng';
                     this.$emit("hanldeAlertDialog", this.Alert);
-                    this.$emit('cancelDialog');
                 }
                 else{
-                    for(let i = 0; i < result.userMsg.length; i++){
-                        this.WarnInfo.content += result.userMsg[i] + "\n";
+                    if(this.Product.showInScreen == false) this.Product.showInScreen = 0;
+                    else this.Product.showInScreen = 1;
+                    this.Product.buyPrice = this.Product.buyPrice.toString().replace('.', '');
+                    this.Product.salePrice = this.Product.salePrice.toString().replace('.', '');
+                    let result;
+                    if(this.isEdit == false) {
+                        result = await productServices.insertProduct(this.Product)
                     }
-                    this.$emit('showPopupWarn', this.WarnInfo.content);
-                    this.WarnInfo.content = "";
+                    else {
+                        result = await productServices.updateProduct(this.Product)
+                    }
+                    if(result.data == 1){
+                        this.Alert.Success = true;
+                        this.Alert.Text = result.userMsg;
+                        this.$emit("hanldeAlertDialog", this.Alert);
+                        this.$emit('cancelDialog');
+                    }
+                    else{
+                        for(let i = 0; i < result.userMsg.length; i++){
+                            this.WarnInfo.content += result.userMsg[i] + "\n";
+                        }
+                        this.$emit('showPopupWarn', this.WarnInfo.content);
+                        this.WarnInfo.content = "";
+                    }
                 }
+            } catch (error) {
+                console.log(error);
             }
         },
         /**
@@ -425,16 +433,20 @@ export default {
          * Sinh mã tự động
          */
         async autoSku() {
-            if(this.validateData() == false) return;
-            let value = this.Product.productName;
-            if (value != "") {
-                value = this.removeVietnameseTones(value);
-                const acronym = value
-                .toUpperCase()
-                .split(/\s/)
-                .reduce((response, word) => (response += word.slice(0, 1)), "");
-                const result = await productServices.genSKUCode(acronym);
-                this.Product.skuCode = result['skuCodeGen'];
+            try {
+                if(this.validateData() == false) return;
+                let value = this.Product.productName;
+                if (value != "") {
+                    value = this.removeVietnameseTones(value);
+                    const acronym = value
+                    .toUpperCase()
+                    .split(/\s/)
+                    .reduce((response, word) => (response += word.slice(0, 1)), "");
+                    const result = await productServices.genSKUCode(acronym);
+                    this.Product.skuCode = result['skuCodeGen'];
+                }
+            } catch (error) {
+                console.log(error);
             }
         },
         
@@ -442,17 +454,25 @@ export default {
          * Format giá mua
          */
         formatBuyPrice(val){
-            // Bỏ kí tự ,
-            val = val.toString().replace(/\D/g, "");
-            this.Product.buyPrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            try {
+                // Bỏ kí tự ,
+                val = val.toString().replace(/\D/g, "");
+                this.Product.buyPrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            } catch (error) {
+                console.log(error);
+            }
         },
         /**
          * Format giá bán
          */
         formatSalePrice(val){
-            // Bỏ kí tự ,
-            val = val.toString().replace(/\D/g, "");
-            this.Product.salePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            try {
+                // Bỏ kí tự ,
+                val = val.toString().replace(/\D/g, "");
+                this.Product.salePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            } catch (error) {
+                console.log(error);
+            }
         },
         /**
          * Focus mặc định

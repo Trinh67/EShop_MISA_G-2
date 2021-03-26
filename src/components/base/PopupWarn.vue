@@ -54,7 +54,11 @@ export default {
      * Created By: TXTrinh (16/03/2021)
      */
     btnConfirmOnClick() {
-      this.$emit('closePopupWarn', true);
+      try {
+        this.$emit('closePopupWarn', true);
+      } catch (error) {
+        console.log(error);
+      }
     },
   }
 };

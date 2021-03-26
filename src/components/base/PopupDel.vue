@@ -72,20 +72,28 @@ export default {
      * Created By: TXTrinh (16/03/2021)
      */
     btnCancelOnClick() {
-      this.$emit('closePopupDel', true);
+      try {
+        this.$emit('closePopupDel', true);
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      * Xóa hàng hóa
      */
     async deleteAction(){
-      const code = await productServices.deleteProduct(this.PopupDelInfo.ListProDelete);
-      if(code == 200){
-        this.Alert.Success = true;
-        this.Alert.Text = "Xóa hàng hóa thành công!"
+      try {
+        const code = await productServices.deleteProduct(this.PopupDelInfo.ListProDelete);
+        if(code == 200){
+          this.Alert.Success = true;
+          this.Alert.Text = "Xóa hàng hóa thành công!"
+        }
+        this.$emit("hanldeAlertDel", this.Alert);
+        this.$emit('closePopupDel', true);
+        EventBus.$emit('reloadData');
+      } catch (error) {
+        console.log(error);
       }
-      this.$emit("hanldeAlertDel", this.Alert);
-      this.$emit('closePopupDel', true);
-      EventBus.$emit('reloadData');
     }
   }
 };

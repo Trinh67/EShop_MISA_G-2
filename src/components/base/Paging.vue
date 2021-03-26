@@ -43,16 +43,24 @@ export default {
      * Load lại dữ liệu
      */
     reloadData(){
-      this.$emit('reloadProList');
+      try {
+        this.$emit('reloadProList');
+      } catch (error) {
+        console.error(error);
+      }
     },
     /**
      * Lọc dữ liệu khi nhập số page vào ô Input
      * Create By: TXTrinh (12/03/2021)
      */
     SetCurrentPage(){
-      this.Paging.startPoint = this.Paging.currentPage - 1;
-      console.log(this.Paging.startPoint);
-      this.SetValuePaging();
+      try {
+        this.Paging.startPoint = this.Paging.currentPage - 1;
+        console.log(this.Paging.startPoint);
+        this.SetValuePaging();
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      * Các hàm thay đổi startPoint để phân trang
@@ -60,28 +68,44 @@ export default {
      */
     // Previous Page
     DecreasePageNumber(){
+      try {
         if(this.Paging.startPoint == 0) return;
         this.Paging.startPoint--;
         this.SetValuePaging();
+      } catch (error) {
+        console.log(error);
+      }
     },
     // First Page
     FirstPageNumber(){
+      try {
         if(this.Paging.startPoint == 0) return;
         this.Paging.startPoint = 0;
         this.SetValuePaging();
+      } catch (error) {
+        console.log(error);
+      }
     },
     // Next Page
     IncreasePageNumber(){
+      try {
         if((this.Paging.startPoint + 1 == this.Paging.totalPage)) return;
         this.Paging.startPoint++;
         this.SetValuePaging();
+      } catch (error) {
+        console.log(error);
+      }
     },
     // Last Page
     LastPageNumber(){
+      try {
         if(this.Paging.startPoint + 1 == parseInt(this.Paging.productDataLength/this.Paging.number)) return;
         this.Paging.startPoint = parseInt(this.Paging.productDataLength/this.Paging.number);
         if(this.Paging.startPoint*this.Paging.number == this.Paging.productDataLength) this.Paging.startPoint--;
         this.SetValuePaging();
+      } catch (error) {
+        console.log(error);
+      }
     },
     // SetValuePaging when change
     SetValuePaging(){

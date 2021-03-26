@@ -297,19 +297,31 @@ export default {
      * Created By: TXTrinh (16/03/2021)
      */
     btnAddOnClick(){
-      this.$emit('showDialog');
+      try {
+        this.$emit('showDialog');
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      * Mở dialog sửa
      */
     btnEditOnClick() {
-      this.$emit('showEditDialog', this.selectedId);
+      try {
+        this.$emit('showEditDialog', this.selectedId);
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      * Mở dialog sửa
      */
     btnDupbleOnClick() {
-      this.$emit('showDupbleDialog', this.selectedId);
+      try {
+        this.$emit('showDupbleDialog', this.selectedId);
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      * Load lại dữ liệu
@@ -345,60 +357,73 @@ export default {
      * Xóa hàng hóa
      */
     btnDeleteOnClick(){
-      if(this.DelInfo.ListProDelete.length == 0) {
-        this.WarnInfo = "Bạn chưa chọn hàng hóa nào!";
-        this.$emit('showPopupWarn', this.WarnInfo);
-        return
+      try {
+        if(this.DelInfo.ListProDelete.length == 0) {
+          this.WarnInfo = "Bạn chưa chọn hàng hóa nào!";
+          this.$emit('showPopupWarn', this.WarnInfo);
+          return
+        }
+        else if(this.DelInfo.ListProDelete.length == 1){
+          const result = this.Products.filter(product => product.productID == this.DelInfo.ListProDelete);
+          this.DelInfo.content = result[0].productName + ' (' + result[0].skuCode + ')';
+        }
+        else{
+          this.DelInfo.content = 'tất cả hàng hóa đã chọn';
+        }
+        this.$emit('showPopupDel', this.DelInfo);
+      } catch (error) {
+        console.log(error);
       }
-      else if(this.DelInfo.ListProDelete.length == 1){
-        const result = this.Products.filter(product => product.productID == this.DelInfo.ListProDelete);
-        this.DelInfo.content = result[0].productName + ' (' + result[0].skuCode + ')';
-      }
-      else{
-        this.DelInfo.content = 'tất cả hàng hóa đã chọn';
-      }
-      this.$emit('showPopupDel', this.DelInfo);
     },
     /**
      *  Thêm/Xóa phần tử vào danh sách để xóa
     */
     CheckListDelete(id, isChecked){
-      if(!isChecked){
-        this.DelInfo.ListProDelete.splice(this.DelInfo.ListProDelete.indexOf(id), 1);
-        this.allSelected = false;
-      } 
-      else {
-        this.DelInfo.ListProDelete.push(id);
-        if(this.DelInfo.ListProDelete.length == this.Products.length){
-          this.allSelected = true;
-        }  
-      }
-      if(this.DelInfo.ListProDelete.length > 1) {
-        document.getElementById('multiply').classList.add("disable-button");
-        document.getElementById('edit').classList.add("disable-button");
-      }
-      else{
-        document.getElementById('multiply').classList.remove("disable-button");
-        document.getElementById('edit').classList.remove("disable-button");
+      try {
+        if(!isChecked){
+          this.DelInfo.ListProDelete.splice(this.DelInfo.ListProDelete.indexOf(id), 1);
+          this.allSelected = false;
+        } 
+        else {
+          this.DelInfo.ListProDelete.push(id);
+          if(this.DelInfo.ListProDelete.length == this.Products.length){
+            this.allSelected = true;
+          }  
+        }
+        if(this.DelInfo.ListProDelete.length > 1) {
+          document.getElementById('multiply').classList.add("disable-button");
+          document.getElementById('edit').classList.add("disable-button");
+        }
+        else{
+          document.getElementById('multiply').classList.remove("disable-button");
+          document.getElementById('edit').classList.remove("disable-button");
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
     /**
      * Chon tất cả hàng hóa
      */
     selectAll() {
-      this.DelInfo.ListProDelete = [];
-      for ( var i = 0; i < this.Products.length; i++) {
-        if(this.allSelected) this.DelInfo.ListProDelete.push(this.Products[i].productID);
-            document.getElementsByName('checkboxInput')[i].checked = this.allSelected;
-      }
-
-      if(this.DelInfo.ListProDelete.length > 1) {
-        document.getElementById('multiply').classList.add("disable-button");
-        document.getElementById('edit').classList.add("disable-button");
-      }
-      else{
-        document.getElementById('multiply').classList.remove("disable-button");
-        document.getElementById('edit').classList.remove("disable-button");
+      try {
+        
+        this.DelInfo.ListProDelete = [];
+        for ( var i = 0; i < this.Products.length; i++) {
+          if(this.allSelected) this.DelInfo.ListProDelete.push(this.Products[i].productID);
+              document.getElementsByName('checkboxInput')[i].checked = this.allSelected;
+        }
+  
+        if(this.DelInfo.ListProDelete.length > 1) {
+          document.getElementById('multiply').classList.add("disable-button");
+          document.getElementById('edit').classList.add("disable-button");
+        }
+        else{
+          document.getElementById('multiply').classList.remove("disable-button");
+          document.getElementById('edit').classList.remove("disable-button");
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
     /**
@@ -406,21 +431,29 @@ export default {
      * Created By: TXTrinh (17/03/2021)
      */
     rowOnClick(id){
-      if(this.selectedId != null && this.selectedId!= ""){
-        document.getElementById(this.selectedId).classList.remove("selected");
-        document.getElementById(id).classList.add("selected");
-        this.selectedId = id;
-      } else{
-        document.getElementById(id).classList.add("selected");
-        this.selectedId = id;
-      };
+      try {
+        if(this.selectedId != null && this.selectedId!= ""){
+          document.getElementById(this.selectedId).classList.remove("selected");
+          document.getElementById(id).classList.add("selected");
+          this.selectedId = id;
+        } else{
+          document.getElementById(id).classList.add("selected");
+          this.selectedId = id;
+        };
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      * Sự kiến nhấn đúp vào 1 hàng
      * Create By: TXTrinh (17/03/2021)
      */
     rowOnDBClick(){
-      this.btnEditOnClick();
+      try {
+        this.btnEditOnClick();
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   async mounted(){
