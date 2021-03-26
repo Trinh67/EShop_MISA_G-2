@@ -58,7 +58,7 @@
               colspan="1"
               rowspan="1"
             >
-                <input type="checkbox" id="checkAll" @change="selectAll()">
+                <input type="checkbox" id="checkAll" v-model="allSelected" @change="selectAll()">
             </th>
             <th
               id="SKUCode"
@@ -323,6 +323,7 @@ export default {
      * Lọc dữ liệu theo các đầu vào
      */
     async FilterProduct(){
+      this.allSelected = false;
       this.CountProduct();
       this.$emit('showLoading');
       this.Products = await productServices.getProduct(this.Filter);
@@ -336,6 +337,7 @@ export default {
       this.$emit('showLoading');
       this.PagingValue.productDataLength = await productServices.quantityProduct(this.Filter);
       if(this.PagingValue.finishListProduct > this.PagingValue.productDataLength) this.PagingValue.finishListProduct = this.PagingValue.productDataLength;
+      else this.PagingValue.finishListProduct = this.PagingValue.startPoint + this.PagingValue.number;
       this.PagingValue.totalPage = Math.ceil(this.PagingValue.productDataLength/this.PagingValue.number);
       this.$emit('hideLoading');
     },
@@ -363,13 +365,11 @@ export default {
     CheckListDelete(id, isChecked){
       if(!isChecked){
         this.DelInfo.ListProDelete.splice(this.DelInfo.ListProDelete.indexOf(id), 1);
-        document.getElementById('checkAll').checked = false;
         this.allSelected = false;
       } 
       else {
         this.DelInfo.ListProDelete.push(id);
         if(this.DelInfo.ListProDelete.length == this.Products.length){
-          document.getElementById('checkAll').checked = true;
           this.allSelected = true;
         }  
       }
@@ -388,10 +388,9 @@ export default {
     selectAll() {
       this.DelInfo.ListProDelete = [];
       for ( var i = 0; i < this.Products.length; i++) {
-        if(!this.allSelected) this.DelInfo.ListProDelete.push(this.Products[i].productID);
-            document.getElementsByName('checkboxInput')[i].checked = !this.allSelected;
+        if(this.allSelected) this.DelInfo.ListProDelete.push(this.Products[i].productID);
+            document.getElementsByName('checkboxInput')[i].checked = this.allSelected;
       }
-      this.allSelected = !this.allSelected;    
 
       if(this.DelInfo.ListProDelete.length > 1) {
         document.getElementById('multiply').classList.add("disable-button");

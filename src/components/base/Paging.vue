@@ -39,6 +39,9 @@ export default {
   },
   props: ["PagingValue"],
   methods: {
+    /**
+     * Load lại dữ liệu
+     */
     reloadData(){
       this.$emit('reloadProList');
     },

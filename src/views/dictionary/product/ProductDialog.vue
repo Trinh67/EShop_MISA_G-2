@@ -293,6 +293,9 @@ export default {
         }
     },
     methods: {
+        /**
+         * Thoát Dialog
+         */
         btnCancelOnClick(){
             this.$emit('cancelDialog');
         },
@@ -300,9 +303,12 @@ export default {
          * Lấy thông tin hàng hóa
          */
         async getProductData(){
+            this.$emit('showLoading');
             this.Product = await productServices.getProductById(this.ProductID);
             this.formatBuyPrice(this.Product.buyPrice);
             this.formatSalePrice(this.Product.salePrice);
+            if(this.isEdit == false) this.autoSku();
+            this.$emit('hideLoading');
         },
         /**
          * Lưu mới cửa hàng
@@ -418,7 +424,7 @@ export default {
          */
         async autoSku() {
             if(this.validateData() == false) return;
-            let value = event.target.value;
+            let value = this.Product.productName;
             if (value != "") {
                 value = this.removeVietnameseTones(value);
                 const acronym = value
@@ -430,18 +436,25 @@ export default {
             }
         },
         
+        /**
+         * Format giá mua
+         */
         formatBuyPrice(val){
             // Bỏ kí tự ,
-            console.log(val);
             val = val.toString().replace(/\D/g, "");
             this.Product.buyPrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
         },
+        /**
+         * Format giá bán
+         */
         formatSalePrice(val){
             // Bỏ kí tự ,
-            console.log(val);
             val = val.toString().replace(/\D/g, "");
             this.Product.salePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
         },
+        /**
+         * Focus mặc định
+         */
         focusInput: function() {
             this.$refs.productName.focus();
         },

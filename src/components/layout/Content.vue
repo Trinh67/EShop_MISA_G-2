@@ -79,17 +79,29 @@ export default {
     };
   },
   methods:{
+    /**
+     * Mở Loading
+     */
     showLoading(){
       this.isLoading = true;
     },
+    /**
+     * Ẩn Loading
+     */
     hideLoading(){
       this.isLoading = false;
     },
+    /**
+     * Mở Dialog thêm mới
+     */
     showDialog(){
       this.isList = false;
       this.isDialog = true;
       this.$emit('setTitle', 'Hàng hóa / Thêm mới');
     },
+    /**
+     * Mở Dialog cập nhập
+     */
     showEditDialog(id){
       this.isList = false;
       this.isDialog = true;
@@ -97,12 +109,18 @@ export default {
       this.isEdit = true;
       this.$emit('setTitle', 'Hàng hóa / Cập nhập');
     },
+    /**
+     * Mở Dialog Nhân bản
+     */
     showDupbleDialog(id){
       this.isList = false;
       this.isDialog = true;
       this.productID = id;
       this.$emit('setTitle', 'Hàng hóa / Nhân bản');
     },
+    /**
+     * Thoát Dialog
+     */
     cancelDialog(){
       this.isList = true;
       this.isDialog = false;
@@ -110,14 +128,23 @@ export default {
       this.productID = null;
       this.$emit('setTitle', 'Hàng hóa');
     },
+    /**
+     * Mở Popup Xóa
+     */
     showPopupDel(DelInfo){
       this.PopupDelInfo = DelInfo;
       this.isDel = true;
     },
+    /**
+     * Đóng Popup
+     */
     closePopup(){
       this.isDel = false;
       this.isWarn = false;
     },
+    /**
+     * Tạo ToggleMess
+     */
     handleAlert(Alert){
       this.isToggleMess = true;
       this.Alert = Alert;
@@ -125,9 +152,15 @@ export default {
         this.isToggleMess = false
       }, 2000)
     },
+    /**
+     * Load lại Data
+     */
     reload(){
       return 
     },
+    /**
+     * Mở PopupDelInfo
+     */
     showPopupWarn(WarnInfo){
       this.PopupWarnInfo = WarnInfo;
       this.isWarn = true;
