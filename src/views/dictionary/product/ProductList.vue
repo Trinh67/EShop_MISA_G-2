@@ -336,8 +336,8 @@ export default {
     async CountProduct(){
       this.$emit('showLoading');
       this.PagingValue.productDataLength = await productServices.quantityProduct(this.Filter);
+      this.PagingValue.finishListProduct = this.Filter.startPoint + this.Filter.number;
       if(this.PagingValue.finishListProduct > this.PagingValue.productDataLength) this.PagingValue.finishListProduct = this.PagingValue.productDataLength;
-      else this.PagingValue.finishListProduct = this.PagingValue.startPoint + this.PagingValue.number;
       this.PagingValue.totalPage = Math.ceil(this.PagingValue.productDataLength/this.PagingValue.number);
       this.$emit('hideLoading');
     },
