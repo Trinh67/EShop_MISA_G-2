@@ -118,7 +118,9 @@
                 <div class="row">
                     <span class="input-title">Thuộc tính</span>
                     <input disabled placeholder="Màu sắc" class="disable-input"/>
-                    <input-tag v-model="tags"></input-tag>
+                    <input-tag 
+                        v-model="colors"
+                    ></input-tag>
                 </div>
                 <div class="row">
                     <span class="input-title">Chi tiết thuộc tính</span>
@@ -277,7 +279,7 @@ export default {
             Product:{
                 
             },
-            tags: [],
+            colors: [],
             ProductDetails: [
                 {productName: "Test", skuCode: "T-01", barCode: "16498456", salePrice: 100000, buyPrice: 200000,},
             ],
@@ -458,6 +460,10 @@ export default {
         focusInput: function() {
             this.$refs.productName.focus();
         },
+        /**
+         * Sinh con tự động
+         */
+
     },
     mounted(){
         this.Product = this.Data;

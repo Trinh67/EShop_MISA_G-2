@@ -422,15 +422,6 @@ export default {
     rowOnDBClick(){
       this.btnEditOnClick();
     },
-    /**
-     * Format giá bán
-     */
-    // formatSalePrice(val){
-    //     // Bỏ kí tự ,
-    //     console.log(val);
-    //     val = val.toString().replace(/\D/g, "");
-    //     this.Filter.txtSalePrice = val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-    // },
   },
   async mounted(){
     this.FilterProduct();
